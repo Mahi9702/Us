@@ -3,876 +3,3100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project: Us</title>
-<meta name="description" content="A little product launch, pitched by your PM, validated by your data scientist.">
+
+<title>Project: Us ❤️</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-/* =================================================================
-   DESIGN TOKENS — change these to re-theme the whole site
-   ================================================================= */
+
 :root{
-  --bg-deep:      #160b12;   /* base background — deep rose-black */
-  --bg-panel:     #241220;   /* slightly lighter panel background */
-  --gold:         #d4a574;   /* secondary accent — gold, for contrast */
-  --gold-soft:    #f0d9dd;   /* body text on dark — soft blush-white */
-  --mauve:        #b98a95;   /* quiet / secondary text */
-  --rose:         #e6a4b4;   /* primary accent — dusty rose/blush pink */
-  --line:         rgba(230,164,180,0.18); /* hairline dividers */
+  --bg-deep:#160b12;
+  --bg-panel:#241220;
+  --gold:#d4a574;
+  --gold-soft:#f0d9dd;
+  --mauve:#b98a95;
+  --rose:#e6a4b4;
+  --line:rgba(230,164,180,.18);
 
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Jost', 'Segoe UI', sans-serif;
-  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Jost','Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono','Courier New',monospace;
 
-  --ease: cubic-bezier(.22,.61,.36,1);
+  --ease:cubic-bezier(.22,.61,.36,1);
 }
 
-*{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+}
 
 body{
-  margin:0;
   background:var(--bg-deep);
   color:var(--gold-soft);
   font-family:var(--font-body);
   font-weight:300;
-  overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
 
-/* Respect reduced-motion preference */
-@media (prefers-reduced-motion: reduce){
-  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+button{
+  font-family:inherit;
 }
 
-::selection{ background:var(--gold); color:var(--bg-deep); }
+button:focus-visible{
+  outline:1px solid var(--gold);
+  outline-offset:4px;
+}
 
-a, button{ font-family:inherit; }
-:focus-visible{ outline:1px solid var(--gold); outline-offset:4px; }
+/* ================================
+   STAR BACKGROUND
+================================ */
 
-/* =================================================================
-   AMBIENT BACKGROUND — stars canvas + floating hearts
-   ================================================================= */
 #stars-canvas{
-  position:fixed; inset:0; width:100%; height:100%;
-  z-index:0; pointer-events:none;
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
 }
+
+/* ================================
+   FLOATING HEARTS
+================================ */
 
 .floating-hearts{
-  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
 }
+
 .floating-hearts .fh{
-  position:absolute; bottom:-10%;
-  color:var(--rose); opacity:0;
-  font-size:1rem;
-  animation:floatUp linear infinite;
+  position:absolute;
+  bottom:-10%;
+  color:var(--rose);
+  opacity:0;
+  animation:floatUp linear forwards;
 }
+
 @keyframes floatUp{
-  0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0; }
-  10%{ opacity:0.35; }
-  90%{ opacity:0.25; }
-  100%{ transform:translateY(-110vh) translateX(var(--drift,20px)) rotate(15deg); opacity:0; }
+
+  0%{
+    transform:translateY(0) translateX(0) rotate(0);
+    opacity:0;
+  }
+
+  10%{
+    opacity:.32;
+  }
+
+  90%{
+    opacity:.22;
+  }
+
+  100%{
+    transform:
+      translateY(-110vh)
+      translateX(var(--drift))
+      rotate(15deg);
+
+    opacity:0;
+  }
+
 }
 
-/* =================================================================
-   MUSIC TOGGLE
-   ================================================================= */
-.music-toggle{
-  position:fixed; top:20px; right:20px; z-index:50;
-  width:44px; height:44px; border-radius:50%;
-  background:rgba(28,19,32,0.7); backdrop-filter:blur(6px);
-  border:1px solid var(--line);
-  color:var(--gold-soft);
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-  transition:border-color .3s var(--ease), transform .3s var(--ease);
-}
-.music-toggle:hover{ border-color:var(--gold); transform:scale(1.05); }
-.music-toggle .icon-note{ width:18px; height:18px; }
-.music-toggle .music-bars{ display:none; gap:2px; align-items:flex-end; height:14px; }
-.music-toggle.playing .icon-note{ display:none; }
-.music-toggle.playing .music-bars{ display:flex; }
-.music-toggle .music-bars i{
-  width:2px; background:var(--gold); display:inline-block;
-  animation:bar 0.9s ease-in-out infinite;
-}
-.music-toggle .music-bars i:nth-child(1){ height:6px; animation-delay:0s; }
-.music-toggle .music-bars i:nth-child(2){ height:12px; animation-delay:0.2s; }
-.music-toggle .music-bars i:nth-child(3){ height:8px; animation-delay:0.4s; }
-@keyframes bar{ 0%,100%{ transform:scaleY(0.5); } 50%{ transform:scaleY(1.3); } }
+/* ================================
+   APP
+================================ */
 
-/* =================================================================
-   SHARED SCREEN LAYOUT
-   ================================================================= */
+.app{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100svh;
+}
+
+/* ================================
+   SCREENS
+================================ */
+
 .screen{
-  position:relative; z-index:1;
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100svh;
   min-height:100svh;
-  display:flex; align-items:center; justify-content:center;
-  padding:8vh 6vw;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:7vh 7vw;
+
   text-align:center;
+
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+
+  transform:translateY(18px) scale(.985);
+
+  transition:
+    opacity .7s var(--ease),
+    transform .7s var(--ease),
+    visibility 0s linear .7s;
 }
-.section-inner{ max-width:640px; width:100%; }
+
+.screen.active{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+
+  transform:translateY(0) scale(1);
+
+  transition:
+    opacity .7s var(--ease),
+    transform .7s var(--ease);
+}
+
+.screen.exit{
+  opacity:0;
+  transform:translateY(-14px) scale(.99);
+}
+
+.inner{
+  width:min(650px,100%);
+}
+
 .eyebrow{
-  font-size:0.8rem; letter-spacing:0.04em; color:var(--mauve);
-  margin:0 0 1.2rem;
-}
-.section-title{
-  font-family:var(--font-display); font-weight:500; font-style:italic;
-  font-size:clamp(1.6rem,4vw,2.4rem);
-  color:var(--gold-soft); margin:0 0 3rem;
-}
-.heart{ color:var(--rose); margin-left:0.3em; }
+  margin:0 0 1.3rem;
 
-/* Scroll-reveal system: JS toggles .is-visible on .reveal-section
-   which cascades a fade+rise into its .reveal-child elements. */
-.reveal-child{
-  opacity:0; transform:translateY(22px);
-  transition:opacity .9s var(--ease), transform .9s var(--ease);
-}
-.reveal-section.is-visible .reveal-child{ opacity:1; transform:translateY(0); }
-.reveal-section.is-visible .reveal-child:nth-child(1){ transition-delay:0.05s; }
-.reveal-section.is-visible .reveal-child:nth-child(2){ transition-delay:0.18s; }
-.reveal-section.is-visible .reveal-child:nth-child(3){ transition-delay:0.31s; }
-.reveal-section.is-visible .reveal-child:nth-child(4){ transition-delay:0.44s; }
+  color:var(--mauve);
 
-/* =================================================================
-   SECTION 0 — GATE (first screen)
-   ================================================================= */
-.gate{ background:radial-gradient(ellipse at 50% 30%, #2e1522 0%, var(--bg-deep) 70%); }
-.gate-content{ max-width:520px; }
-.gate-kicker{
-  font-size:0.85rem; letter-spacing:0.05em; color:var(--mauve); margin-bottom:1.5rem;
+  font:
+    400 .75rem
+    var(--font-mono);
+
+  letter-spacing:.04em;
+  text-transform:lowercase;
 }
-.gate-title{
-  font-family:var(--font-display); font-weight:500;
-  font-size:clamp(1.9rem,6vw,2.9rem);
-  line-height:1.35; color:var(--gold-soft); margin:0 0 3rem;
+
+.display{
+  font-family:var(--font-display);
+  font-weight:500;
+  font-style:italic;
+  line-height:1.25;
+
+  color:var(--gold-soft);
 }
+
+.heart{
+  color:var(--rose);
+}
+
+/* ================================
+   BUTTONS
+================================ */
+
+.open-btn,
+.next-btn{
+
+  background:transparent;
+
+  border:1px solid var(--gold);
+
+  color:var(--gold);
+
+  padding:.85rem 1.7rem;
+
+  border-radius:999px;
+
+  font-size:.92rem;
+
+  cursor:pointer;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:.65rem;
+
+  transition:
+    background .3s var(--ease),
+    color .3s var(--ease),
+    transform .3s var(--ease),
+    box-shadow .3s var(--ease);
+}
+
 .open-btn{
-  background:transparent; border:1px solid var(--gold);
-  color:var(--gold); padding:0.9rem 2rem; border-radius:999px;
-  font-size:0.95rem; letter-spacing:0.02em; cursor:pointer;
-  display:inline-flex; align-items:center; gap:0.6rem;
-  transition:background .35s var(--ease), color .35s var(--ease), box-shadow .35s var(--ease);
   animation:pulseGlow 2.8s ease-in-out infinite;
 }
-.open-btn:hover{ background:var(--gold); color:var(--bg-deep); }
-.open-btn .arrow{ transition:transform .35s var(--ease); }
-.open-btn:hover .arrow{ transform:translateX(4px); }
+
+.open-btn:hover,
+.next-btn:hover{
+
+  background:var(--gold);
+  color:var(--bg-deep);
+
+  transform:translateY(-2px);
+}
+
 @keyframes pulseGlow{
-  0%,100%{ box-shadow:0 0 0 0 rgba(212,165,116,0.0); }
-  50%{ box-shadow:0 0 22px 2px rgba(212,165,116,0.18); }
+
+  0%,100%{
+    box-shadow:0 0 0 0 rgba(212,165,116,0);
+  }
+
+  50%{
+    box-shadow:
+      0 0 22px 2px
+      rgba(212,165,116,.18);
+  }
+
 }
 
-/* Once opened, the gate fades and collapses out of flow */
-.gate.gate--closing{ animation:gateOut .9s var(--ease) forwards; }
-@keyframes gateOut{
-  to{ opacity:0; transform:scale(0.98); }
-}
-.gate.gate--hidden{ display:none; }
+/* ================================
+   SCREEN 1
+================================ */
 
-.journey{ display:none; }
-.journey.is-open{ display:block; }
+.gate{
 
-/* =================================================================
-   SECTION 1 — OPENING
-   ================================================================= */
-.opening-content{ max-width:600px; }
-.typing-line{
-  font-family:var(--font-display); font-weight:500; font-style:italic;
-  font-size:clamp(1.7rem,5vw,2.6rem);
-  color:var(--gold-soft); line-height:1.4; margin:0 0 1.8rem;
-  min-height:2.8em;
-  border-right:2px solid transparent;
+  background:
+    radial-gradient(
+      ellipse at 50% 30%,
+      #2e1522 0%,
+      var(--bg-deep) 70%
+    );
+
 }
-.typing-line.typing{ border-right-color:var(--gold); }
+
+.gate-kicker{
+
+  color:var(--mauve);
+
+  font:
+    400 .8rem
+    var(--font-mono);
+
+  margin-bottom:1.4rem;
+}
+
+.gate h1{
+
+  font-family:var(--font-display);
+
+  font-weight:500;
+
+  font-size:
+    clamp(2.2rem,8vw,4rem);
+
+  line-height:1.1;
+
+  margin:0 0 1.5rem;
+}
+
+.gate-sub{
+
+  color:var(--mauve);
+
+  font-size:.98rem;
+
+  margin:
+    0 auto
+    2.4rem;
+
+  line-height:1.7;
+}
+
+/* ================================
+   SCREEN 2
+================================ */
+
+.opening{
+
+  background:
+    radial-gradient(
+      ellipse at 50% 35%,
+      #2a1420 0%,
+      var(--bg-deep) 72%
+    );
+
+}
+
+.opening .display{
+
+  font-size:
+    clamp(2rem,6vw,3.4rem);
+
+  min-height:2.5em;
+
+  margin-bottom:1.4rem;
+}
+
 .opening-sub{
-  color:var(--mauve); font-size:1rem; line-height:1.8; max-width:460px; margin:0 auto;
-}
-.scroll-hint{ margin-top:4rem; display:flex; justify-content:center; }
-.scroll-line{
-  width:1px; height:46px; background:linear-gradient(var(--gold), transparent);
-  animation:scrollPulse 2.2s ease-in-out infinite;
-}
-@keyframes scrollPulse{ 0%,100%{ opacity:0.3; } 50%{ opacity:1; } }
 
-/* =================================================================
-   SECTION 2 — OUR STORY
-   ================================================================= */
-.story-text{ text-align:left; }
-.story-p{
-  font-family:var(--font-display); font-size:clamp(1.15rem,2.6vw,1.4rem);
-  line-height:1.85; color:var(--gold-soft); margin:0 0 1.6rem;
-}
-.story-p:last-child{ margin-bottom:0; }
-.story-p em{ color:var(--gold); font-style:italic; }
+  max-width:500px;
 
-/* =================================================================
-   SECTIONS 3 & 4 — CARD GRIDS
-   ================================================================= */
-.memory-grid, .love-grid{
-  display:grid; gap:1.1rem;
-  grid-template-columns:repeat(2, 1fr);
+  margin:
+    0 auto
+    2.2rem;
+
+  color:var(--mauve);
+
+  font-size:1rem;
+
+  line-height:1.8;
+}
+
+.cursor{
+
+  display:inline-block;
+
+  width:1px;
+
+  height:1em;
+
+  background:var(--gold);
+
+  vertical-align:-.1em;
+
+  margin-left:3px;
+
+  animation:blink .8s infinite;
+}
+
+@keyframes blink{
+
+  50%{
+    opacity:0;
+  }
+
+}
+
+/* ================================
+   DATE
+================================ */
+
+.date-big{
+
+  font:
+    500
+    clamp(1.8rem,6vw,3rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold);
+
+  margin-bottom:.7rem;
+}
+
+.time-big{
+
+  font:
+    400 .8rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  letter-spacing:.04em;
+
+  margin-bottom:1.5rem;
+}
+
+.story-line{
+
+  font:
+    500
+    clamp(2rem,6vw,3.3rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  line-height:1.25;
+
+  margin:
+    0 0
+    2.3rem;
+}
+
+.story-line em{
+
+  color:var(--gold);
+
+  font-style:italic;
+}
+
+/* ================================
+   COUNTER
+================================ */
+
+.counter-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:.75rem;
+
+  margin:
+    0 auto
+    1.6rem;
+
+  max-width:560px;
+}
+
+.counter-box{
+
+  background:var(--bg-panel);
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:5px;
+
+  padding:1rem .5rem;
+}
+
+.counter-num{
+
+  font:
+    600
+    clamp(1.4rem,5vw,2rem)
+    var(--font-display);
+
+  color:var(--gold);
+
+  margin:
+    0 0
+    .25rem;
+
+  font-variant-numeric:tabular-nums;
+}
+
+.counter-label{
+
+  font:
+    .62rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  text-transform:uppercase;
+
+  letter-spacing:.04em;
+}
+
+.status{
+
+  font:
+    .72rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  margin:
+    0 0
+    2rem;
+}
+
+.status span{
+  color:var(--gold);
+}
+
+/* ================================
+   REVEAL TITLE
+================================ */
+
+.reveal-title{
+
+  font:
+    500
+    clamp(2rem,6vw,3rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  line-height:1.25;
+
+  margin:
+    0 0
+    2rem;
+}
+
+/* ================================
+   TAP TO REVEAL CARD
+================================ */
+
+.reveal-card{
+
+  width:min(520px,100%);
+
+  min-height:220px;
+
+  margin:
+    0 auto
+    1.8rem;
+
+  border:
+    1px solid
+    rgba(212,165,116,.45);
+
+  border-radius:14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(48,24,38,.92),
+      rgba(29,13,23,.96)
+    );
+
+  box-shadow:
+    0 15px 50px
+    rgba(0,0,0,.22),
+
+    inset 0 1px 0
+    rgba(255,255,255,.03);
+
+  overflow:hidden;
+
+  cursor:pointer;
+
+  transition:
+    transform .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease;
+}
+
+.reveal-card:hover{
+
+  transform:translateY(-4px);
+
+  border-color:
+    rgba(212,165,116,.75);
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.3),
+
+    0 0 30px
+    rgba(212,165,116,.08);
+}
+
+/* COVER */
+
+.reveal-cover{
+
+  min-height:220px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:2rem;
+
+  transition:
+    opacity .45s ease,
+    transform .45s ease;
+}
+
+.reveal-icon{
+
+  font-size:2rem;
+
+  margin-bottom:.8rem;
+
+  animation:
+    revealFloat
+    2.5s
+    ease-in-out
+    infinite;
+}
+
+@keyframes revealFloat{
+
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-5px);
+  }
+
+}
+
+.reveal-card-title{
+
+  color:var(--gold);
+
+  font:
+    500 .78rem
+    var(--font-mono);
+
+  letter-spacing:.12em;
+
+  margin-bottom:.7rem;
+}
+
+.reveal-card-sub{
+
+  color:var(--mauve);
+
+  font:
+    italic 1.05rem
+    var(--font-display);
+
+  line-height:1.5;
+
+  max-width:260px;
+}
+
+.reveal-arrow{
+
+  margin-top:1.2rem;
+
+  color:var(--gold);
+
+  font-size:1rem;
+
+  animation:
+    arrowMove
+    1.5s
+    ease-in-out
+    infinite;
+}
+
+@keyframes arrowMove{
+
+  0%,100%{
+    transform:translateY(0);
+    opacity:.6;
+  }
+
+  50%{
+    transform:translateY(5px);
+    opacity:1;
+  }
+
+}
+
+/* CONTENT */
+
+.reveal-content{
+
+  min-height:220px;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:2rem;
+
+  opacity:0;
+
+  transform:translateY(12px);
+}
+
+.reveal-content p{
+
+  margin:0;
+
+  font:
+    italic 500
+    clamp(1.35rem,4vw,2rem)
+    var(--font-display);
+
+  line-height:1.45;
+
+  color:var(--gold-soft);
+
+  max-width:430px;
+}
+
+.reveal-content .accent{
+  color:var(--gold);
+}
+
+/* OPEN STATE */
+
+.reveal-card.revealed .reveal-cover{
+  display:none;
+}
+
+.reveal-card.revealed .reveal-content{
+
+  display:flex;
+
+  animation:
+    revealIn
+    .65s
+    var(--ease)
+    forwards;
+}
+
+@keyframes revealIn{
+
+  from{
+    opacity:0;
+    transform:translateY(15px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* ================================
+   USER MANUAL
+================================ */
+
+.manual{
+
+  text-align:left;
+
+  background:
+    rgba(36,18,32,.72);
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:6px;
+
+  padding:1.6rem 1.5rem;
+
+  margin:
+    0 auto
+    1.8rem;
+
+  max-width:500px;
+}
+
+.manual-row{
+
+  margin:.65rem 0;
+
+  color:var(--gold-soft);
+
+  font-size:.9rem;
+
+  line-height:1.55;
+}
+
+.manual-row strong{
+
+  color:var(--mauve);
+
+  font:
+    400 .7rem
+    var(--font-mono);
+
+  display:block;
+
+  margin-bottom:.1rem;
+}
+
+.system-status{
+
+  font:
+    .72rem
+    var(--font-mono);
+
+  color:var(--rose);
+
+  margin:
+    0 0
+    1.8rem;
+}
+
+/* ================================
+   RELATIONSHIP FILE
+================================ */
+
+.file-card{
+
+  text-align:left;
+
+  background:
+    rgba(36,18,32,.78);
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:7px;
+
+  max-width:500px;
+
+  margin:
+    0 auto
+    1.7rem;
+
+  overflow:hidden;
+}
+
+.file-head{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:.8rem 1rem;
+
+  border-bottom:
+    1px solid
+    var(--line);
+
+  font:
+    .68rem
+    var(--font-mono);
+}
+
+.file-id{
+  color:var(--mauve);
+}
+
+.file-status{
+  color:var(--rose);
+}
+
+.file-body{
+  padding:1.35rem 1.4rem;
+}
+
+.file-name{
+
+  font:
+    500 1.5rem
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold-soft);
+
+  margin-bottom:1.2rem;
+}
+
+.file-line{
+
+  font:
+    .78rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  line-height:1.8;
+}
+
+.file-line b{
+
+  color:var(--gold-soft);
+
+  font-weight:400;
+}
+
+.file-section{
+
+  margin-top:1.25rem;
+
+  padding-top:1rem;
+
+  border-top:
+    1px solid
+    var(--line);
+}
+
+.file-section-title{
+
+  font:
+    .68rem
+    var(--font-mono);
+
+  color:var(--gold);
+
+  margin-bottom:.55rem;
+}
+
+.file-list{
+
+  margin:0;
+
+  padding-left:1.2rem;
+
+  color:var(--gold-soft);
+
+  font-size:.84rem;
+
+  line-height:1.8;
+}
+
+.resolution{
+
+  font:
+    500 1.1rem
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold-soft);
+
+  line-height:1.5;
+
+  margin:0;
+}
+
+.priority{
+
+  font:
+    .68rem
+    var(--font-mono);
+
+  color:var(--rose);
+
+  margin-top:.65rem;
+}
+
+/* ================================
+   PENDING MARRIAGE
+================================ */
+
+.pending{
+
+  max-width:480px;
+
+  margin:
+    0 auto
+    1.8rem;
+
+  background:
+    rgba(36,18,32,.75);
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:7px;
+
+  padding:1.7rem;
+
   text-align:left;
 }
-.memory-card, .love-card{
-  background:var(--bg-panel);
-  border:1px solid var(--line);
-  border-radius:4px;
-  padding:1.6rem 1.4rem;
-  transition:border-color .4s var(--ease), transform .4s var(--ease);
-}
-.memory-card:hover, .love-card:hover{
-  border-color:var(--gold);
-  transform:translateY(-3px);
-}
-.memory-card p, .love-card p{
-  margin:0; font-size:0.98rem; line-height:1.7; color:var(--gold-soft);
-}
-.love-card em{ color:var(--gold); font-style:italic; }
 
-/* stagger the grid a little so it doesn't feel like a rigid kit */
-.memory-card:nth-child(2n), .love-card:nth-child(2n){ transform:translateY(10px); }
-.memory-card:nth-child(2n):hover, .love-card:nth-child(2n):hover{ transform:translateY(7px); }
+.pending-title{
 
-/* =================================================================
-   SECTION 5 — TIMELINE
-   ================================================================= */
-.timeline-track{
-  position:relative; text-align:left;
-  padding-left:2.2rem;
-  border-left:1px solid var(--line);
-  max-width:520px; margin:0 auto;
-}
-.timeline-item{ position:relative; margin-bottom:2.6rem; }
-.timeline-item:last-child{ margin-bottom:0; }
-.timeline-dot{
-  position:absolute; left:-2.53rem; top:0.35rem;
-  width:9px; height:9px; border-radius:50%;
-  background:var(--rose);
-  box-shadow:0 0 0 4px rgba(224,168,168,0.12);
-}
-.timeline-date{
-  font-family:var(--font-display); font-style:italic; font-weight:500;
-  color:var(--gold); font-size:1.15rem; margin:0 0 0.5rem;
-}
-.timeline-text{
-  color:var(--gold-soft); font-size:0.98rem; line-height:1.7; margin:0;
+  text-align:center;
+
+  font:
+    500 1.55rem
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold-soft);
+
+  margin-bottom:1.5rem;
 }
 
-/* =================================================================
-   SECTION 6 — THE LETTER
-   ================================================================= */
-.letter-inner{ max-width:560px; }
-.letter-body{ text-align:left; }
-.letter-body p{
-  font-family:var(--font-display); font-size:clamp(1.15rem,2.6vw,1.35rem);
-  line-height:1.9; color:var(--gold-soft); margin:0 0 1.4rem;
-}
-.letter-closing{
-  font-style:italic; color:var(--gold); margin-top:2.2rem !important;
-}
-.letter-signoff{ color:var(--mauve); font-size:1.05rem !important; }
+.pending-row{
 
-/* =================================================================
-   SECTION 7 — FINALE
-   ================================================================= */
-.finale{ background:radial-gradient(ellipse at 50% 60%, #2e1522 0%, var(--bg-deep) 75%); }
-.finale-line{
-  font-family:var(--font-display); font-weight:500; font-style:italic;
-  font-size:clamp(2rem,7vw,3.4rem);
-  margin:0; color:var(--gold-soft); line-height:1.25;
-}
-.finale-line--accent{ color:var(--gold); }
-.finale-date{
-  margin-top:2.5rem; color:var(--mauve); letter-spacing:0.04em; font-size:1rem;
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:1rem;
+
+  padding:.55rem 0;
+
+  border-bottom:
+    1px solid
+    rgba(230,164,180,.09);
+
+  font:
+    .74rem
+    var(--font-mono);
 }
 
-/* =================================================================
-   RESPONSIVE
-   ================================================================= */
-@media (max-width:640px){
-  .screen{ padding:9vh 7vw; }
-  .memory-grid, .love-grid{ grid-template-columns:1fr; }
-  .memory-card:nth-child(2n), .love-card:nth-child(2n){ transform:none; }
-  .memory-card:nth-child(2n):hover, .love-card:nth-child(2n):hover{ transform:translateY(-3px); }
-  .timeline-track{ padding-left:1.8rem; }
-  .timeline-dot{ left:-2.13rem; }
+.pending-row:last-child{
+  border-bottom:0;
 }
 
-@media (min-width:641px) and (max-width:900px){
-  .memory-grid, .love-grid{ grid-template-columns:repeat(2,1fr); }
+.pending-row span:first-child{
+  color:var(--mauve);
 }
 
-/* =================================================================
-   MONO / "PRODUCT" TOUCHES
-   ================================================================= */
-.mono{ font-family:var(--font-mono); }
-.gate-kicker{ font-size:0.78rem; letter-spacing:0.03em; }
-.gate-sub{
-  color:var(--mauve); font-size:0.95rem; margin:0.8rem 0 2.6rem;
-}
-.card-tag{
-  display:block; font-size:0.72rem; color:var(--mauve);
-  margin-bottom:0.6rem; letter-spacing:0.02em;
+.pending-row span:last-child{
+
+  text-align:right;
+
+  color:var(--gold-soft);
 }
 
-/* =================================================================
-   SECTION 3 — METRICS DASHBOARD
-   ================================================================= */
-.metrics-grid{
-  display:grid; grid-template-columns:repeat(4,1fr); gap:1rem;
-  margin:1rem 0 2.4rem;
-}
-.metrics-since{
-  color:var(--rose); font-size:0.85rem; letter-spacing:0.02em;
-  margin:-2.2rem 0 2.2rem;
-}
-.metric-box{
-  background:var(--bg-panel); border:1px solid var(--line); border-radius:4px;
-  padding:1.4rem 0.6rem;
-}
-.metric-num{
-  font-family:var(--font-display); font-weight:600;
-  font-size:clamp(1.5rem,4.5vw,2.1rem); color:var(--gold);
-  margin:0 0 0.4rem; font-variant-numeric:tabular-nums;
-}
-.metric-label{ margin:0; font-size:0.7rem; color:var(--mauve); letter-spacing:0.03em; }
-.metric-footnotes{
-  text-align:left; max-width:420px; margin:0 auto;
-  background:var(--bg-panel); border:1px solid var(--line); border-radius:4px;
-  padding:1.2rem 1.4rem;
-}
-.metric-footnotes p{
-  margin:0 0 0.5rem; font-size:0.82rem; color:var(--mauve); line-height:1.6;
-}
-.metric-footnotes p:last-child{ margin-bottom:0; }
-.metric-footnotes .ok{ color:var(--gold); }
+.pending-action{
 
-@media (max-width:640px){
-  .metrics-grid{ grid-template-columns:repeat(2,1fr); }
+  text-align:center;
+
+  font:
+    500 1.1rem
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold);
+
+  margin:
+    1.4rem 0 0;
 }
 
-/* =================================================================
-   SECTION 7 — OPEN TICKET CARD
-   ================================================================= */
-.ticket-card{
-  background:var(--bg-panel); border:1px solid var(--line); border-radius:6px;
-  padding:2rem 1.8rem; text-align:left; max-width:480px; margin:0 auto;
-}
-.ticket-header{
-  display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:1.2rem; font-size:0.78rem;
-}
-.ticket-id{ color:var(--mauve); }
-.ticket-status{
-  color:var(--rose); background:rgba(230,164,180,0.12);
-  padding:0.25rem 0.6rem; border-radius:999px;
-}
-.ticket-title{
-  font-family:var(--font-display); font-weight:500; font-style:italic;
-  font-size:1.4rem; color:var(--gold-soft); margin:0 0 1.1rem;
-}
-.ticket-body{
-  font-size:0.9rem; color:var(--mauve); line-height:1.8; margin:0 0 1.3rem;
-}
-.ticket-note{
-  font-size:0.98rem; color:var(--gold-soft); line-height:1.7; margin:0;
-  border-top:1px solid var(--line); padding-top:1.2rem;
+/* ================================
+   CHOICE
+================================ */
+
+.choice-screen .display{
+
+  font-size:
+    clamp(2rem,6vw,3.1rem);
+
+  margin-bottom:2.3rem;
 }
 
-/* =================================================================
-   FINALE — status line
-   ================================================================= */
-.finale-status{
-  margin-top:0.8rem; color:var(--mauve); font-size:0.8rem; letter-spacing:0.02em;
+.choice-text{
+
+  font:
+    500
+    clamp(1.45rem,5vw,2.2rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  line-height:1.45;
+
+  min-height:5.2em;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  margin:
+    0 auto
+    1.7rem;
 }
 
-/* =================================================================
-   SECTION 10 — THANK YOU PAGE
-   ================================================================= */
-.thankyou{
-  background:radial-gradient(ellipse at 50% 50%, #2e1522 0%, var(--bg-deep) 75%);
+.choice-text .gold{
+  color:var(--gold);
 }
-.thankyou-content{ max-width:520px; }
-.thankyou-line{
-  font-family:var(--font-display); font-weight:500; font-style:italic;
-  font-size:clamp(1.8rem,5.5vw,2.6rem);
-  color:var(--gold-soft); margin:0 0 1.4rem;
+
+/* ================================
+   EMOTIONAL
+================================ */
+
+.emotional .display{
+
+  font-size:
+    clamp(2rem,6vw,3.2rem);
+
+  margin-bottom:2.2rem;
 }
-.thankyou-sub{
-  color:var(--mauve); font-size:1rem; line-height:1.8;
-  max-width:420px; margin:0 auto 2.2rem;
+
+.emotional-line{
+
+  font:
+    500
+    clamp(1.55rem,5vw,2.3rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  line-height:1.4;
+
+  min-height:3.3em;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  margin:
+    0 auto
+    1.5rem;
 }
-.thankyou-mono{
-  color:var(--rose); font-size:0.78rem; letter-spacing:0.02em;
+
+.emotional-final{
+
+  font:
+    600
+    clamp(2.5rem,8vw,4.5rem)
+    var(--font-display);
+
+  font-style:italic;
+
+  color:var(--gold);
+
+  line-height:1.1;
+
+  margin:
+    0 0
+    1.8rem;
+}
+
+.final-date{
+
+  font:
+    .75rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  margin:
+    0 0
+    .8rem;
+}
+
+.final-status{
+
+  font:
+    .7rem
+    var(--font-mono);
+
+  color:var(--mauve);
+
+  margin:0;
+}
+
+.ps{
+
+  margin-top:2.5rem;
+
+  font:
+    italic .95rem
+    var(--font-display);
+
+  color:var(--rose);
+
+  opacity:0;
+
+  animation:
+    psIn
+    1s
+    1.5s
+    forwards;
+}
+
+@keyframes psIn{
+
+  to{
+    opacity:1;
+  }
+
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:560px){
+
+  .screen{
+    padding:
+      6vh
+      6vw;
+  }
+
+  .counter-grid{
+    gap:.5rem;
+  }
+
+  .counter-box{
+    padding:.85rem .3rem;
+  }
+
+  .manual,
+  .file-card,
+  .pending{
+    padding:1.2rem;
+  }
+
+  .pending-row{
+    font-size:.68rem;
+  }
+
+  .reveal-card{
+    min-height:205px;
+  }
+
+  .reveal-cover{
+    min-height:205px;
+  }
+
+}
+
+/* ================================
+   REDUCED MOTION
+================================ */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+
+    animation-duration:.001ms!important;
+
+    animation-iteration-count:1!important;
+
+    transition-duration:.001ms!important;
+
+  }
+
 }
 
 </style>
 </head>
+
+
 <body>
 
 <canvas id="stars-canvas"></canvas>
-<div class="floating-hearts" id="floating-hearts" aria-hidden="true"></div>
 
-<button id="music-toggle" class="music-toggle" aria-label="Play music" title="Play music">
-  <svg class="icon-note" viewBox="0 0 24 24" fill="none"><path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.4"/></svg>
-  <span class="music-bars" aria-hidden="true"><i></i><i></i><i></i></span>
-</button>
-
-<!-- Add your own royalty-free track at assets/music.mp3 -->
-<audio id="bg-music" loop preload="none">
-  <source src="assets/music.mp3" type="audio/mpeg">
-</audio>
+<div
+  class="floating-hearts"
+  id="floating-hearts"
+  aria-hidden="true">
+</div>
 
 
-<!-- ============================================================
-     SECTION 0 — THE GATE
-     ============================================================ -->
-<section id="gate" class="screen gate">
-  <div class="gate-content">
-    <p class="gate-kicker mono">a small deployment, Utkarsh</p>
-    <h1 class="gate-title">Introducing: Us<span class="heart">&#10084;</span></h1>
-    <p class="gate-sub">Pitched by your PM. Validated by your own data.</p>
-    <button id="open-btn" class="open-btn">
-      <span>View Product</span>
-      <span class="arrow">&#8594;</span>
+<div class="app">
+
+
+<!-- =================================
+     SCREEN 1
+================================= -->
+
+<section
+  class="screen gate active"
+  data-screen="0">
+
+  <div class="inner">
+
+    <p class="gate-kicker">
+      a little something for you, my love ❤️
+    </p>
+
+    <h1>
+      Introducing: Us
+      <span class="heart">♥</span>
+    </h1>
+
+    <p class="gate-sub">
+      I built something for you.<br>
+      A little something about us. ❤️
+    </p>
+
+    <button
+      class="open-btn"
+      data-next="1">
+
+      Open it →
+
     </button>
+
   </div>
+
 </section>
 
 
-<main id="journey" class="journey">
+<!-- =================================
+     SCREEN 2
+================================= -->
 
-  <!-- ============================================================
-       SECTION 1 — THE PROBLEM STATEMENT
-       ============================================================ -->
-  <section class="screen opening reveal-section">
-    <div class="opening-content">
-      <p class="eyebrow mono reveal-child">the problem statement</p>
-      <h2 class="typing-line" id="typing-line" data-text="Before him, life had no direction.">&nbsp;</h2>
-      <p class="opening-sub reveal-child">I always had the ideas. I just never knew how to execute them. Meeting Utkarsh didn't just change my life &mdash; it gave it direction. Somewhere along the way, I found the courage to actually build the things I used to just think about.</p>
-      <div class="scroll-hint reveal-child" aria-hidden="true">
-        <span class="scroll-line"></span>
+<section
+  class="screen opening"
+  data-screen="1">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      the beginning
+    </p>
+
+    <h2
+      class="display"
+      id="typing">
+    </h2>
+
+    <p class="opening-sub">
+
+      28 August 2023.<br>
+
+      The day we actually met.
+
+      <br><br>
+
+      I didn't know it then,<br>
+
+      but this was the beginning of everything.
+
+    </p>
+
+    <button
+      class="next-btn"
+      data-next="2">
+
+      Continue →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 3
+================================= -->
+
+<section
+  class="screen"
+  data-screen="2">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      when it became us
+    </p>
+
+    <p class="date-big">
+      26 November 2023
+    </p>
+
+    <p class="time-big">
+      09:08 PM
+    </p>
+
+    <p class="story-line">
+
+      And somewhere around that time...
+
+      <br>
+
+      <em>
+        it became us. ❤️
+      </em>
+
+    </p>
+
+
+    <div class="counter-grid">
+
+      <div class="counter-box">
+
+        <p
+          class="counter-num"
+          id="days">
+          0
+        </p>
+
+        <p class="counter-label">
+          days
+        </p>
+
       </div>
-    </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 2 — HOW IT STARTED (the real story)
-       ============================================================ -->
-  <section class="screen story reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">background &mdash; how it started</p>
-      <div class="story-text">
-        <p class="story-p reveal-child">You were my senior in college, back in 2017&ndash;18. I'd noticed you once &mdash; nothing more than that. It stayed quiet for years, filed away without either of us knowing it would matter.</p>
-        <p class="story-p reveal-child">Then on 28th August 2023, we actually met. Properly, this time.</p>
-        <p class="story-p reveal-child">Neither of us knew it yet, but that was the day the real project began.</p>
-        <p class="story-p reveal-child">And on 26th November 2023, at 9:08 PM, it became <em>us</em> &mdash; and it still is.</p>
-      </div>
-    </div>
-  </section>
+      <div class="counter-box">
 
+        <p
+          class="counter-num"
+          id="hours">
+          0
+        </p>
 
-  <!-- ============================================================
-       SECTION 3 — THE METRICS DASHBOARD (live counter)
-       ============================================================ -->
-  <section class="screen metrics reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">live metrics</p>
-      <h2 class="section-title reveal-child">Uptime: still counting</h2>
-      <p class="metrics-since mono reveal-child">since 26th november 2023, 9:08 pm</p>
+        <p class="counter-label">
+          hours
+        </p>
 
-      <div class="metrics-grid reveal-child">
-        <div class="metric-box">
-          <p class="metric-num" id="metric-days">0</p>
-          <p class="metric-label mono">days</p>
-        </div>
-        <div class="metric-box">
-          <p class="metric-num" id="metric-hours">0</p>
-          <p class="metric-label mono">hours</p>
-        </div>
-        <div class="metric-box">
-          <p class="metric-num" id="metric-mins">0</p>
-          <p class="metric-label mono">minutes</p>
-        </div>
-        <div class="metric-box">
-          <p class="metric-num" id="metric-secs">0</p>
-          <p class="metric-label mono">seconds</p>
-        </div>
       </div>
 
-      <div class="metric-footnotes reveal-child">
-        <p class="mono">bugs_found: <span class="ok">0</span></p>
-        <p class="mono">model: trained_on_every_single_day</p>
-        <p class="mono">hallucinations: <span class="ok">none. only real love.</span></p>
-        <p class="mono">status: <span class="ok">still choosing you, every run</span></p>
+
+      <div class="counter-box">
+
+        <p
+          class="counter-num"
+          id="mins">
+          0
+        </p>
+
+        <p class="counter-label">
+          minutes
+        </p>
+
       </div>
-    </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 4 — FEATURE HIGHLIGHTS (Things I Love About You)
-       ============================================================ -->
-  <section class="screen love reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">feature highlights</p>
-      <h2 class="section-title reveal-child">Shipped. No updates needed.</h2>
+      <div class="counter-box">
 
-      <div class="love-grid">
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Understands what I mean before I've finished the sentence. No prompt engineering required.</p></div>
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Still chooses me every single day &mdash; no A/B testing needed, the result was clear from day one.</p></div>
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Turns "I have an idea" into an actual plan. My best collaborator.</p></div>
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Calls me Mahi Sunshine, and somehow I believe him every time.</p></div>
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Turned "senior I once noticed" into "the person I build my whole life around."</p></div>
-        <div class="love-card reveal-child"><p class="mono card-tag">feature</p><p>Explains the most complicated things patiently, every single time, without making me feel small.</p></div>
+        <p
+          class="counter-num"
+          id="secs">
+          0
+        </p>
+
+        <p class="counter-label">
+          seconds
+        </p>
+
       </div>
+
     </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 5 — LITTLE THINGS ABOUT US
-       ============================================================ -->
-  <section class="screen memories reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">changelog &mdash; little things</p>
-      <h2 class="section-title reveal-child">The small stuff, logged</h2>
-
-      <div class="memory-grid">
-        <div class="memory-card reveal-child"><p class="mono card-tag">v1</p><p>You were my senior. I saw you once. I had no idea this changelog was coming.</p></div>
-        <div class="memory-card reveal-child"><p class="mono card-tag">v2</p><p>"Oh Mahi Oh Mahi" became our song, for no real reason at all.</p></div>
-        <div class="memory-card reveal-child"><p class="mono card-tag">v3</p><p>Bubbu Jana &mdash; a nickname that stuck before I even noticed it happening.</p></div>
-        <div class="memory-card reveal-child"><p class="mono card-tag">v4</p><p>Mahi Sunshine &mdash; the name only you use, and the one I secretly love most.</p></div>
-        <div class="memory-card reveal-child"><p class="mono card-tag">v5</p><p>28th August 2023 &mdash; unplanned, unremarkable on paper, and somehow everything.</p></div>
-      </div>
-    </div>
-  </section>
+    <p class="status">
+      status:
+      <span>
+        still running.
+      </span>
+    </p>
 
 
-  <!-- ============================================================
-       SECTION 6 — ROADMAP (Timeline)
-       ============================================================ -->
-  <section class="screen timeline reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">roadmap</p>
-      <h2 class="section-title reveal-child">Release history</h2>
+    <button
+      class="next-btn"
+      data-next="3">
 
-      <div class="timeline-track">
-        <div class="timeline-item reveal-child">
-          <div class="timeline-dot"></div>
-          <p class="timeline-date mono">2017&ndash;18 &mdash; discovery phase</p>
-          <p class="timeline-text">You were my senior in college. Noticed, then filed away.</p>
+      Continue →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 4
+     THINGS ONLY YOU KNOW
+================================= -->
+
+<section
+  class="screen"
+  data-screen="3">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      things only you know
+    </p>
+
+
+    <h2 class="reveal-title">
+
+      You know me.
+      <span class="heart">
+        ❤️
+      </span>
+
+    </h2>
+
+
+    <!-- TAP TO REVEAL CARD -->
+
+    <div
+      class="reveal-card"
+      id="revealCard">
+
+
+      <!-- BEFORE CLICK -->
+
+      <div
+        class="reveal-cover"
+        id="revealCover">
+
+        <div class="reveal-icon">
+          💌
         </div>
-        <div class="timeline-item reveal-child">
-          <div class="timeline-dot"></div>
-          <p class="timeline-date mono">28 aug 2023 &mdash; kickoff</p>
-          <p class="timeline-text">We actually met. The real project began, quietly.</p>
+
+        <div class="reveal-card-title">
+          TAP TO REVEAL
         </div>
-        <div class="timeline-item reveal-child">
-          <div class="timeline-dot"></div>
-          <p class="timeline-date mono">26 nov 2023, 9:08 pm &mdash; v1.0 release</p>
-          <p class="timeline-text">This is when it became us. Still running, zero downtime.</p>
+
+        <div class="reveal-card-sub">
+          something only you know about me
         </div>
-        <div class="timeline-item reveal-child">
-          <div class="timeline-dot"></div>
-          <p class="timeline-date mono">now &mdash; in development</p>
-          <p class="timeline-text">Next major release planned for 2027. Stay tuned.</p>
+
+        <div class="reveal-arrow">
+          ↓
         </div>
+
       </div>
+
+
+      <!-- AFTER CLICK -->
+
+      <div
+        class="reveal-content"
+        id="revealContent">
+
+        <p id="thingsText"></p>
+
+      </div>
+
     </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 7 — OPEN TICKET (the proposal callout, playful)
-       ============================================================ -->
-  <section class="screen ticket reveal-section">
-    <div class="section-inner">
-      <p class="eyebrow mono reveal-child">open ticket</p>
-      <div class="ticket-card reveal-child">
-        <div class="ticket-header">
-          <span class="ticket-id mono">#001</span>
-          <span class="ticket-status mono">status: pending</span>
+    <button
+      class="next-btn"
+      id="thingsBtn"
+      style="display:none;">
+
+      Next →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 5
+     MAHI USER MANUAL
+================================= -->
+
+<section
+  class="screen"
+  data-screen="4">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      documentation
+    </p>
+
+
+    <h2 class="reveal-title">
+      MAHI — USER MANUAL
+    </h2>
+
+
+    <div class="manual">
+
+      <div class="manual-row">
+
+        <strong>
+          When hungry:
+        </strong>
+
+        Feed immediately.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When quiet:
+        </strong>
+
+        Ask what's wrong.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When she says "nothing":
+        </strong>
+
+        Investigate further.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When she says "I'm fine":
+        </strong>
+
+        She is not fine.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When she needs attention:
+        </strong>
+
+        Give maximum.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When she gets emotional:
+        </strong>
+
+        Hug first. Solutions later.
+
+      </div>
+
+
+      <div class="manual-row">
+
+        <strong>
+          When in doubt:
+        </strong>
+
+        Love her more.
+
+      </div>
+
+    </div>
+
+
+    <p class="system-status">
+      system status:
+      high maintenance, high love. ❤️
+    </p>
+
+
+    <button
+      class="next-btn"
+      data-next="5">
+
+      Continue →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 6
+     RELATIONSHIP FILE
+================================= -->
+
+<section
+  class="screen"
+  data-screen="5">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      confidential file
+    </p>
+
+
+    <div class="file-card">
+
+      <div class="file-head">
+
+        <span class="file-id">
+          RELATIONSHIP_FILE #001
+        </span>
+
+        <span class="file-status">
+          ACTIVE ❤️
+        </span>
+
+      </div>
+
+
+      <div class="file-body">
+
+        <p class="file-name">
+          Madhulika Utkarsh Singh
+        </p>
+
+
+        <p class="file-line">
+
+          started:
+          <b>
+            26 November 2023, 09:08 PM
+          </b>
+
+        </p>
+
+
+        <div class="file-section">
+
+          <p class="file-section-title">
+            KNOWN ISSUES
+          </p>
+
+
+          <ul class="file-list">
+
+            <li>
+              Needs food
+            </li>
+
+            <li>
+              Needs attention
+            </li>
+
+            <li>
+              Needs unlimited love
+            </li>
+
+            <li>
+              Gets upset over small things
+            </li>
+
+            <li>
+              Says "I'm fine" when she's absolutely not
+            </li>
+
+          </ul>
+
         </div>
-        <h3 class="ticket-title">Feature Request: "Will You Marry Me?"</h3>
-        <p class="ticket-body">Opened by: Madhulika (Mahi Sunshine)<br>
-        Assigned to: Utkarsh (Bubbu Jana)<br>
-        Priority: High &mdash; rising every day<br>
-        Target release: 2027</p>
-        <p class="ticket-note">In case you were forgetting &mdash; you still have to ask me. This one's on you now. No rush.<br>Okay, maybe a little rush. &#10084;</p>
+
+
+        <div class="file-section">
+
+          <p class="file-section-title">
+            RESOLUTION
+          </p>
+
+
+          <p class="resolution">
+
+            Requires maximum time,
+            love, care and attention.
+
+          </p>
+
+
+          <p class="priority">
+            PRIORITY: VERY HIGH.
+          </p>
+
+        </div>
+
+
+        <div class="file-section">
+
+          <p class="file-section-title">
+            NEXT ACTION
+          </p>
+
+
+          <p class="resolution">
+
+            Utkarsh has to ask
+            Madhulika for marriage.
+
+          </p>
+
+
+          <p class="priority">
+            STATUS: WAITING FOR USER ACTION...
+          </p>
+
+        </div>
+
       </div>
+
     </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 8 — THE LETTER (user testimonial)
-       ============================================================ -->
-  <section class="screen letter reveal-section">
-    <div class="section-inner letter-inner">
-      <p class="eyebrow mono reveal-child">user testimonial</p>
-      <div class="letter-body reveal-child">
-        <p>My Bubbu Jana,</p>
-        <p>I never thought a senior I'd only noticed once would end up becoming everything.</p>
-        <p>28th August 2023 &mdash; the day we actually met, I had no idea it was the beginning of this.</p>
-        <p>26th November 2023, 9:08 PM &mdash; from that night until now, you've been my favourite decision, every single day.</p>
-        <p>Before you, I had ideas and no direction. With you, I found both &mdash; and the courage to actually go after them.</p>
-        <p class="letter-closing">If I had to do it all over again,<br>I would still choose you.</p>
-        <p class="letter-signoff">&mdash; Mahi</p>
+    <button
+      class="next-btn"
+      data-next="6">
+
+      Acknowledged →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 7
+     PENDING MARRIAGE
+================================= -->
+
+<section
+  class="screen"
+  data-screen="6">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      one pending request
+    </p>
+
+
+    <div class="pending">
+
+      <h2 class="pending-title">
+        PENDING REQUEST 💍
+      </h2>
+
+
+      <div class="pending-row">
+
+        <span>
+          Request
+        </span>
+
+        <span>
+          Marriage
+        </span>
+
       </div>
-    </div>
-  </section>
 
 
-  <!-- ============================================================
-       SECTION 9 — FINAL SCREEN
-       ============================================================ -->
-  <section class="screen finale reveal-section">
-    <div class="finale-content">
-      <h2 class="finale-line reveal-child">Still you.</h2>
-      <h2 class="finale-line finale-line--accent reveal-child">Always you. <span class="heart">&#10084;</span></h2>
-      <p class="finale-date mono reveal-child">Since 26th November 2023, 9:08 PM</p>
-      <p class="finale-status mono reveal-child">status: lifetime deployment. no rollback planned.</p>
-    </div>
-  </section>
-  <!-- ============================================================
-       SECTION 10 — THANK YOU PAGE
-       ============================================================ -->
-  <section class="screen thankyou reveal-section">
-    <div class="thankyou-content">
-      <p class="eyebrow mono reveal-child">thank you</p>
-      <h2 class="thankyou-line reveal-child">Thank you for choosing Us.</h2>
-      <p class="thankyou-sub reveal-child">Your subscription is active for life. No cancellations. No refunds. Only renewals, every single day.</p>
-      <p class="thankyou-mono mono reveal-child">built with love, not just code &mdash; okay, some code too. &#10084;</p>
-    </div>
-  </section>
+      <div class="pending-row">
 
-</main>
+        <span>
+          Requested by
+        </span>
+
+        <span>
+          Madhulika
+        </span>
+
+      </div>
+
+
+      <div class="pending-row">
+
+        <span>
+          Assigned to
+        </span>
+
+        <span>
+          Utkarsh
+        </span>
+
+      </div>
+
+
+      <div class="pending-row">
+
+        <span>
+          Status
+        </span>
+
+        <span>
+          WAITING...
+        </span>
+
+      </div>
+
+
+      <p class="pending-action">
+        ASK THE QUESTION.
+      </p>
+
+
+      <div
+        class="pending-row"
+        style="margin-top:1rem;">
+
+        <span>
+          Priority
+        </span>
+
+        <span>
+          VERY VERY HIGH 👀
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <p
+      class="display"
+      style="
+        font-size:1.35rem;
+        margin:0 0 1.5rem;
+      ">
+
+      No pressure.
+      <br>
+      Okay... maybe a little. 😂❤️
+
+    </p>
+
+
+    <button
+      class="next-btn"
+      data-next="7">
+
+      Continue →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 8
+     WHY CHOOSE ME
+================================= -->
+
+<section
+  class="screen choice-screen"
+  data-screen="7">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      important question
+    </p>
+
+
+    <h2 class="display">
+
+      Why do you have to choose me?
+
+    </h2>
+
+
+    <div
+      class="reveal-card"
+      id="choiceCard">
+
+
+      <div
+        class="reveal-cover">
+
+        <div class="reveal-icon">
+          💌
+        </div>
+
+        <div class="reveal-card-title">
+          TAP TO REVEAL
+        </div>
+
+        <div class="reveal-card-sub">
+          I have a few reasons...
+        </div>
+
+        <div class="reveal-arrow">
+          ↓
+        </div>
+
+      </div>
+
+
+      <div
+        class="reveal-content">
+
+        <p id="choiceText"></p>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="next-btn"
+      id="choiceBtn"
+      style="display:none;">
+
+      Next →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     SCREEN 9
+     EMOTIONAL
+================================= -->
+
+<section
+  class="screen emotional"
+  data-screen="8">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      one last thing
+    </p>
+
+
+    <h2 class="display">
+
+      If I could keep only one thing
+      <br>
+      from everything we've built...
+
+    </h2>
+
+
+    <div
+      class="reveal-card"
+      id="emotionalCard">
+
+
+      <div class="reveal-cover">
+
+        <div class="reveal-icon">
+          ❤️
+        </div>
+
+        <div class="reveal-card-title">
+          TAP TO REVEAL
+        </div>
+
+        <div class="reveal-card-sub">
+          one last thing I want you to know
+        </div>
+
+        <div class="reveal-arrow">
+          ↓
+        </div>
+
+      </div>
+
+
+      <div
+        class="reveal-content">
+
+        <p id="emotionalText"></p>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="next-btn"
+      id="emotionalBtn"
+      style="display:none;">
+
+      Next →
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =================================
+     FINAL SCREEN
+================================= -->
+
+<section
+  class="screen"
+  data-screen="9">
+
+  <div class="inner">
+
+    <p class="eyebrow">
+      final status
+    </p>
+
+
+    <p
+      class="display"
+      style="
+        font-size:clamp(2.5rem,8vw,4.5rem);
+        margin:0 0 .4rem;
+      ">
+
+      Still you.
+
+    </p>
+
+
+    <p
+      class="display"
+      style="
+        font-size:clamp(2.5rem,8vw,4.5rem);
+        color:var(--gold);
+        margin:0 0 1.8rem;
+      ">
+
+      Always you.
+      <span class="heart">
+        ♥
+      </span>
+
+    </p>
+
+
+    <p class="final-date">
+      Since 26 November 2023, 9:08 PM
+    </p>
+
+
+    <p class="final-status">
+      status:
+      lifetime deployment.
+      no rollback planned.
+    </p>
+
+
+    <p class="ps">
+      P.S. I'm still waiting for that question. 💍
+    </p>
+
+  </div>
+
+</section>
+
+
+</div>
+
 
 <script>
-/* =================================================================
-   1. AMBIENT STARFIELD (canvas, no external library)
-   ================================================================= */
-(function starfield(){
-  const canvas = document.getElementById('stars-canvas');
-  const ctx = canvas.getContext('2d');
+
+/* =================================
+   STARFIELD
+================================= */
+
+(function(){
+
+  const canvas =
+    document.getElementById(
+      'stars-canvas'
+    );
+
+  const ctx =
+    canvas.getContext('2d');
+
   let stars = [];
-  let w, h;
+
+  let width = 0;
+  let height = 0;
+
+  let time = 0;
+
 
   function resize(){
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-    const count = Math.floor((w * h) / 9000); // density scales with screen size
-    stars = Array.from({ length: count }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 1.1 + 0.2,
-      baseAlpha: Math.random() * 0.5 + 0.15,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.015 + 0.005
-    }));
+
+    width =
+      canvas.width =
+      window.innerWidth;
+
+    height =
+      canvas.height =
+      window.innerHeight;
+
+
+    const count =
+      Math.floor(
+        (width * height) / 9000
+      );
+
+
+    stars =
+      Array.from(
+        {length:count},
+        () => ({
+
+          x:
+            Math.random() * width,
+
+          y:
+            Math.random() * height,
+
+          r:
+            Math.random() * 1.1 + .2,
+
+          baseAlpha:
+            Math.random() * .5 + .15,
+
+          phase:
+            Math.random() *
+            Math.PI * 2,
+
+          speed:
+            Math.random() * .015 + .005
+
+        })
+      );
+
   }
 
-  let t = 0;
+
   function draw(){
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#f0d9dd';
-    for (const s of stars){
-      const twinkle = Math.sin(t * s.speed + s.phase) * 0.4 + 0.6;
-      ctx.globalAlpha = s.baseAlpha * twinkle;
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    ctx.fillStyle =
+      '#f0d9dd';
+
+
+    for(
+      const star
+      of stars
+    ){
+
+      ctx.globalAlpha =
+        star.baseAlpha *
+        (
+          Math.sin(
+            time *
+            star.speed +
+            star.phase
+          ) * .4 + .6
+        );
+
+
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+
+
+      ctx.arc(
+        star.x,
+        star.y,
+        star.r,
+        0,
+        Math.PI * 2
+      );
+
+
       ctx.fill();
+
     }
+
+
     ctx.globalAlpha = 1;
-    t += 1;
+
+    time++;
+
     requestAnimationFrame(draw);
+
   }
 
-  window.addEventListener('resize', resize);
+
+  window.addEventListener(
+    'resize',
+    resize
+  );
+
+
   resize();
+
   draw();
+
 })();
 
 
-/* =================================================================
-   2. FLOATING HEARTS (very subtle, occasional)
-   ================================================================= */
-(function floatingHearts(){
-  const container = document.getElementById('floating-hearts');
-  const MAX_HEARTS = 5;
+/* =================================
+   FLOATING HEARTS
+================================= */
 
-  function spawnHeart(){
-    if (container.children.length >= MAX_HEARTS) return;
-    const heart = document.createElement('span');
-    heart.className = 'fh';
-    heart.innerHTML = '&#10084;';
-    heart.style.left = Math.random() * 100 + '%';
-    heart.style.fontSize = (0.7 + Math.random() * 0.8) + 'rem';
-    heart.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
-    const duration = 14 + Math.random() * 10;
-    heart.style.animationDuration = duration + 's';
-    container.appendChild(heart);
-    setTimeout(() => heart.remove(), duration * 1000);
-  }
+(function(){
 
-  // gentle, infrequent — this is meant to be barely noticed
-  setInterval(spawnHeart, 4500);
-  spawnHeart();
-})();
+  const container =
+    document.getElementById(
+      'floating-hearts'
+    );
 
 
-/* =================================================================
-   3. THE GATE — opening screen interaction
-   ================================================================= */
-(function gate(){
-  const gateEl = document.getElementById('gate');
-  const openBtn = document.getElementById('open-btn');
-  const journey = document.getElementById('journey');
-
-  openBtn.addEventListener('click', () => {
-    gateEl.classList.add('gate--closing');
-    journey.classList.add('is-open');
-    document.body.style.overflow = 'auto';
-
-    setTimeout(() => {
-      gateEl.classList.add('gate--hidden');
-      journey.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      startTyping(); // begin the opening line's typing animation
-    }, 850);
-  }, { once: true });
-
-  // lock scroll until the gate is opened
-  document.body.style.overflow = 'hidden';
-})();
+  const MAX = 5;
 
 
-/* =================================================================
-   4. TYPING ANIMATION for the opening line
-   ================================================================= */
-function startTyping(){
-  const el = document.getElementById('typing-line');
-  if (!el || el.dataset.done) return;
-  el.dataset.done = 'true';
+  function spawn(){
 
-  const text = el.getAttribute('data-text') || '';
-  el.textContent = '';
-  el.classList.add('typing');
-
-  let i = 0;
-  function tick(){
-    if (i <= text.length){
-      el.textContent = text.slice(0, i);
-      i++;
-      setTimeout(tick, 45);
-    } else {
-      // stop the blinking cursor a moment after finishing
-      setTimeout(() => el.classList.remove('typing'), 1200);
+    if(
+      container.children.length >= MAX
+    ){
+      return;
     }
+
+
+    const heart =
+      document.createElement(
+        'span'
+      );
+
+
+    heart.className = 'fh';
+
+    heart.innerHTML = '♥';
+
+
+    heart.style.left =
+      Math.random() * 100 + '%';
+
+
+    heart.style.fontSize =
+      (
+        .7 +
+        Math.random() * .8
+      ) + 'rem';
+
+
+    heart.style.setProperty(
+      '--drift',
+      (
+        Math.random() * 60 - 30
+      ) + 'px'
+    );
+
+
+    const duration =
+      14 +
+      Math.random() * 10;
+
+
+    heart.style.animationDuration =
+      duration + 's';
+
+
+    container.appendChild(
+      heart
+    );
+
+
+    setTimeout(
+      () => heart.remove(),
+      duration * 1000
+    );
+
   }
-  tick();
+
+
+  setInterval(
+    spawn,
+    4500
+  );
+
+
+  spawn();
+
+})();
+
+
+/* =================================
+   SCREEN NAVIGATION
+================================= */
+
+const screens =
+  [
+    ...document.querySelectorAll(
+      '.screen'
+    )
+  ];
+
+
+let current = 0;
+
+
+function showScreen(index){
+
+  if(
+    index < 0 ||
+    index >= screens.length
+  ){
+    return;
+  }
+
+
+  screens[current]
+    .classList
+    .remove('active');
+
+
+  screens[current]
+    .classList
+    .add('exit');
+
+
+  const old =
+    current;
+
+
+  current =
+    index;
+
+
+  setTimeout(
+    () => {
+
+      screens[old]
+        .classList
+        .remove('exit');
+
+    },
+    720
+  );
+
+
+  screens[current]
+    .classList
+    .add('active');
+
+
+  if(current === 1){
+    startTyping();
+  }
+
+
+  if(current === 3){
+    initThings();
+  }
+
+
+  if(current === 7){
+    initChoice();
+  }
+
+
+  if(current === 8){
+    initEmotional();
+  }
+
 }
 
 
-/* =================================================================
-   5. SCROLL-REVEAL for every section (IntersectionObserver)
-   ================================================================= */
-(function scrollReveal(){
-  const sections = document.querySelectorAll('.reveal-section');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-      }
-    });
-  }, { threshold: 0.22 });
+/* NORMAL BUTTONS */
 
-  sections.forEach(section => observer.observe(section));
-})();
+document
+  .querySelectorAll(
+    '[data-next]'
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          const next =
+            Number(
+              button.dataset.next
+            );
+
+          showScreen(next);
+
+        }
+      );
+
+    }
+  );
 
 
-/* =================================================================
-   6. LIVE METRICS COUNTER — counts up from the start date/time
-   ================================================================= */
-(function liveCounter(){
-  // EDIT ME if the date/time ever needs to change:
-  const START = new Date('2023-11-26T21:08:00');
+/* =================================
+   TYPING
+================================= */
 
-  const daysEl  = document.getElementById('metric-days');
-  const hoursEl = document.getElementById('metric-hours');
-  const minsEl  = document.getElementById('metric-mins');
-  const secsEl  = document.getElementById('metric-secs');
-  if (!daysEl) return;
+let typed = false;
 
-  function update(){
-    const diff = Date.now() - START.getTime();
-    if (diff < 0) return;
 
-    const totalSeconds = Math.floor(diff / 1000);
-    const days  = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const mins  = Math.floor((totalSeconds % 3600) / 60);
-    const secs  = totalSeconds % 60;
+function startTyping(){
 
-    daysEl.textContent  = days.toLocaleString('en-IN');
-    hoursEl.textContent = hours;
-    minsEl.textContent  = mins;
-    secsEl.textContent  = secs;
+  if(typed){
+    return;
   }
 
-  update();
-  setInterval(update, 1000);
-})();
+
+  typed = true;
 
 
-/* =================================================================
-   7. MUSIC TOGGLE
-   ================================================================= */
-(function music(){
-  const btn = document.getElementById('music-toggle');
-  const audio = document.getElementById('bg-music');
-  let playing = false;
+  const element =
+    document.getElementById(
+      'typing'
+    );
 
-  btn.addEventListener('click', () => {
-    if (!playing){
-      audio.volume = 0.5;
-      audio.play().catch(() => {
-        // No audio file has been added yet, or the browser blocked it.
-        // This fails silently so the site never shows a broken player.
-        console.info('Add your own royalty-free track at assets/music.mp3 to enable music.');
-      });
-      playing = true;
-      btn.classList.add('playing');
-      btn.setAttribute('aria-label', 'Pause music');
-    } else {
-      audio.pause();
-      playing = false;
-      btn.classList.remove('playing');
-      btn.setAttribute('aria-label', 'Play music');
+
+  const text =
+    'Before him, life had no direction.';
+
+
+  let index = 0;
+
+
+  const cursor =
+    document.createElement(
+      'span'
+    );
+
+
+  cursor.className =
+    'cursor';
+
+
+  function type(){
+
+    element.textContent =
+      text.slice(
+        0,
+        index
+      );
+
+
+    element.appendChild(
+      cursor
+    );
+
+
+    if(
+      index < text.length
+    ){
+
+      index++;
+
+
+      setTimeout(
+        type,
+        45
+      );
+
     }
-  });
+    else{
+
+      setTimeout(
+        () => cursor.remove(),
+        1200
+      );
+
+    }
+
+  }
+
+
+  type();
+
+}
+
+
+/* =================================
+   RELATIONSHIP COUNTER
+================================= */
+
+(function(){
+
+  const START =
+    new Date(
+      '2023-11-26T21:08:00'
+    );
+
+
+  const days =
+    document.getElementById(
+      'days'
+    );
+
+  const hours =
+    document.getElementById(
+      'hours'
+    );
+
+  const minutes =
+    document.getElementById(
+      'mins'
+    );
+
+  const seconds =
+    document.getElementById(
+      'secs'
+    );
+
+
+  function update(){
+
+    const difference =
+      Math.max(
+        0,
+        Date.now() -
+        START.getTime()
+      );
+
+
+    const total =
+      Math.floor(
+        difference / 1000
+      );
+
+
+    days.textContent =
+      Math.floor(
+        total / 86400
+      ).toLocaleString(
+        'en-IN'
+      );
+
+
+    hours.textContent =
+      Math.floor(
+        (total % 86400) /
+        3600
+      );
+
+
+    minutes.textContent =
+      Math.floor(
+        (total % 3600) /
+        60
+      );
+
+
+    seconds.textContent =
+      total % 60;
+
+  }
+
+
+  update();
+
+
+  setInterval(
+    update,
+    1000
+  );
+
 })();
 
-/* =================================================================
-   WHERE TO FIND FREE MUSIC (optional)
-   -----------------------------------------------------------------
-   If you'd like background music, download a royalty-free track
-   (no purchase, no account needed) from one of these:
-     - https://pixabay.com/music/            (free, no attribution required)
-     - https://freemusicarchive.org/         (check each track's license)
-     - https://freesound.org/                (short clips, check license)
-   Save the file as "music.mp3" inside an "assets" folder next to
-   this script, i.e.  assets/music.mp3  — the button will pick it
-   up automatically. If no file is present, the button simply does
-   nothing when clicked, and nothing else on the site breaks.
-   ================================================================= */
+
+/* =================================
+   THINGS ONLY YOU KNOW
+================================= */
+
+const things = [
+
+  'You call me <span class="accent">“Mahiiiiii.”</span><br><br>And somehow, it sounds better when you say it.',
+
+  'You know when I need something to eat<br><br>before I even say I’m hungry. 😂',
+
+  'You know when I need attention<br><br>even when I say <span class="accent">“nothing.”</span>',
+
+  'You know when I need love, care<br><br>and a little extra pampering.',
+
+  'You know me.<br><br><span class="accent">And that is one of my favourite things about us. ❤️</span>'
+
+];
+
+
+let thingsIndex = 0;
+
+let thingsReady = false;
+
+let revealOpened = false;
+
+
+const revealCard =
+  document.getElementById(
+    'revealCard'
+  );
+
+
+const thingsText =
+  document.getElementById(
+    'thingsText'
+  );
+
+
+const thingsBtn =
+  document.getElementById(
+    'thingsBtn'
+  );
+
+
+function initThings(){
+
+  if(thingsReady){
+    return;
+  }
+
+
+  thingsReady = true;
+
+  thingsIndex = 0;
+
+  revealOpened = false;
+
+
+  revealCard
+    .classList
+    .remove('revealed');
+
+
+  thingsBtn.style.display =
+    'none';
+
+}
+
+
+/* OPEN FIRST REVEAL */
+
+revealCard.addEventListener(
+  'click',
+  () => {
+
+    if(!revealOpened){
+
+      revealOpened = true;
+
+
+      thingsText.innerHTML =
+        things[thingsIndex];
+
+
+      revealCard
+        .classList
+        .add('revealed');
+
+
+      thingsBtn.style.display =
+        'inline-flex';
+
+
+    }
+
+  }
+);
+
+
+/* NEXT */
+
+thingsBtn.addEventListener(
+  'click',
+  () => {
+
+    if(
+      thingsIndex <
+      things.length - 1
+    ){
+
+      thingsIndex++;
+
+
+      thingsText.innerHTML =
+        things[thingsIndex];
+
+    }
+    else{
+
+      showScreen(4);
+
+    }
+
+  }
+);
+
+
+/* =================================
+   WHY DO YOU HAVE TO CHOOSE ME
+================================= */
+
+const choices = [
+
+  'Because I’ll always be<br><span class="gold">your Mahiiiiii.</span> 🥹',
+
+  'Because I’ll remind you to eat<br>while simultaneously asking<br>what I should eat. 😂',
+
+  'Because I need maximum time,<br>maximum love,<br>maximum care, and maximum attention.',
+
+  'Because life with me<br><span class="gold">will never be boring. ❤️</span>',
+
+  'Because I’ll annoy you,<br>love you, fight with you,<br>and then come back to you.',
+
+  'And because...<br><span class="gold">you already know<br>you don’t really have a choice. 👀❤️</span>'
+
+];
+
+
+let choiceIndex = 0;
+
+let choiceReady = false;
+
+let choiceOpened = false;
+
+
+const choiceCard =
+  document.getElementById(
+    'choiceCard'
+  );
+
+
+const choiceText =
+  document.getElementById(
+    'choiceText'
+  );
+
+
+const choiceBtn =
+  document.getElementById(
+    'choiceBtn'
+  );
+
+
+function initChoice(){
+
+  if(choiceReady){
+    return;
+  }
+
+
+  choiceReady = true;
+
+  choiceIndex = 0;
+
+  choiceOpened = false;
+
+
+  choiceCard
+    .classList
+    .remove('revealed');
+
+
+  choiceBtn.style.display =
+    'none';
+
+}
+
+
+/* OPEN CHOICE CARD */
+
+choiceCard.addEventListener(
+  'click',
+  () => {
+
+    if(!choiceOpened){
+
+      choiceOpened = true;
+
+
+      choiceText.innerHTML =
+        choices[choiceIndex];
+
+
+      choiceCard
+        .classList
+        .add('revealed');
+
+
+      choiceBtn.style.display =
+        'inline-flex';
+
+    }
+
+  }
+);
+
+
+/* NEXT CHOICE */
+
+choiceBtn.addEventListener(
+  'click',
+  () => {
+
+    if(
+      choiceIndex <
+      choices.length - 1
+    ){
+
+      choiceIndex++;
+
+
+      choiceText.innerHTML =
+        choices[choiceIndex];
+
+    }
+    else{
+
+      showScreen(8);
+
+    }
+
+  }
+);
+
+
+/* =================================
+   EMOTIONAL ENDING
+================================= */
+
+const emotionalLines = [
+
+  'It wouldn’t be the memories.',
+
+  'It wouldn’t be the dates.',
+
+  'It wouldn’t even be the story.',
+
+  '<span class="gold">It would be you. ❤️</span>'
+
+];
+
+
+let emotionalIndex = 0;
+
+let emotionalReady = false;
+
+let emotionalOpened = false;
+
+
+const emotionalCard =
+  document.getElementById(
+    'emotionalCard'
+  );
+
+
+const emotionalText =
+  document.getElementById(
+    'emotionalText'
+  );
+
+
+const emotionalBtn =
+  document.getElementById(
+    'emotionalBtn'
+  );
+
+
+function initEmotional(){
+
+  if(emotionalReady){
+    return;
+  }
+
+
+  emotionalReady = true;
+
+  emotionalIndex = 0;
+
+  emotionalOpened = false;
+
+
+  emotionalCard
+    .classList
+    .remove('revealed');
+
+
+  emotionalBtn.style.display =
+    'none';
+
+}
+
+
+/* OPEN EMOTIONAL CARD */
+
+emotionalCard.addEventListener(
+  'click',
+  () => {
+
+    if(!emotionalOpened){
+
+      emotionalOpened = true;
+
+
+      emotionalText.innerHTML =
+        emotionalLines[
+          emotionalIndex
+        ];
+
+
+      emotionalCard
+        .classList
+        .add('revealed');
+
+
+      emotionalBtn.style.display =
+        'inline-flex';
+
+    }
+
+  }
+);
+
+
+/* NEXT EMOTIONAL */
+
+emotionalBtn.addEventListener(
+  'click',
+  () => {
+
+    if(
+      emotionalIndex <
+      emotionalLines.length - 1
+    ){
+
+      emotionalIndex++;
+
+
+      emotionalText.innerHTML =
+        emotionalLines[
+          emotionalIndex
+        ];
+
+    }
+    else{
+
+      showScreen(9);
+
+    }
+
+  }
+);
+
+
+/* =================================
+   KEYBOARD
+================================= */
+
+document.addEventListener(
+  'keydown',
+  event => {
+
+    if(
+      event.key === 'Enter' &&
+      current === 0
+    ){
+
+      showScreen(1);
+
+    }
+
+  }
+);
 
 </script>
+
 </body>
 </html>
