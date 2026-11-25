@@ -16,7 +16,6 @@
 }
 
 :root {
-  --wine: #4b1029;
   --pink: #f6dce5;
   --gold: #e8bd83;
   --cream: #fff8f3;
@@ -54,14 +53,8 @@ button {
 }
 
 @keyframes twinkle {
-  0%, 100% {
-    opacity: .2;
-    transform: scale(.8);
-  }
-  50% {
-    opacity: .9;
-    transform: scale(1.2);
-  }
+  0%, 100% { opacity: .2; transform: scale(.8); }
+  50% { opacity: .9; transform: scale(1.2); }
 }
 
 .heart {
@@ -96,14 +89,8 @@ button {
 }
 
 @keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .content {
@@ -143,15 +130,15 @@ h2 {
 
 .subtitle {
   color: #f4dce5;
-  line-height: 1.8;
+  line-height: 1.7;
   font-size: 14px;
-  margin: 20px auto;
+  margin: 18px auto;
   max-width: 440px;
 }
 
 .big-heart {
-  font-size: 60px;
-  margin: 20px 0;
+  font-size: 56px;
+  margin: 18px 0;
   filter: drop-shadow(0 0 20px #ff8eb7);
   animation: heartbeat 1.8s infinite;
 }
@@ -165,7 +152,7 @@ h2 {
   border: 1px solid var(--gold);
   border-radius: 50px;
   padding: 13px 25px;
-  color: var(--wine);
+  color: #4b1029;
   background: linear-gradient(135deg, #fbe4cf, #e8bd83);
   font-weight: 600;
   box-shadow: 0 8px 30px #0003;
@@ -188,21 +175,21 @@ h2 {
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-top: 24px;
+  margin-top: 22px;
 }
 
 .counter {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin: 28px 0;
+  gap: 7px;
+  margin: 25px 0;
 }
 
 .time-box {
   background: #ffffff0b;
   border: 1px solid #f4c6d52b;
-  border-radius: 16px;
-  padding: 15px 4px;
+  border-radius: 15px;
+  padding: 14px 3px;
 }
 
 .time-box strong {
@@ -223,15 +210,15 @@ h2 {
   border: 1px solid #f0c6d54d;
   background: linear-gradient(145deg, #ffffff12, #ffffff04);
   border-radius: 26px;
-  padding: 28px 22px;
-  margin: 24px auto;
+  padding: 26px 22px;
+  margin: 22px auto;
   max-width: 500px;
   box-shadow: 0 20px 60px #0002;
 }
 
 .memory-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 44px;
+  margin-bottom: 14px;
 }
 
 .memory-card p {
@@ -261,17 +248,17 @@ h2 {
 .letter {
   color: #ffe8ef;
   font-family: "Playfair Display", serif;
-  font-size: clamp(14px, 2.5vw, 17px);
-  line-height: 1.75;
-  margin: 18px auto;
+  font-size: clamp(13px, 2.5vw, 16px);
+  line-height: 1.65;
+  margin: 16px auto;
   max-width: 520px;
 }
 
 .signature {
   color: #f7c5d7;
   font-family: "Dancing Script", cursive;
-  font-size: 32px;
-  margin-top: 14px;
+  font-size: 30px;
+  margin-top: 12px;
 }
 
 .progress {
@@ -299,68 +286,26 @@ h2 {
   color: var(--gold);
   font-size: 10px;
   letter-spacing: 2px;
-  margin-top: 22px;
+  margin-top: 18px;
 }
 
 @media (max-height: 750px) {
-  .screen {
-    padding: 22px 18px;
-  }
-
-  .eyebrow {
-    margin-bottom: 12px;
-  }
-
-  .big-heart {
-    font-size: 44px;
-    margin: 12px 0;
-  }
-
-  .subtitle {
-    margin: 12px auto;
-    line-height: 1.6;
-  }
-
-  .memory-card {
-    padding: 18px;
-    margin: 14px auto;
-  }
-
-  .memory-icon {
-    font-size: 36px;
-    margin-bottom: 8px;
-  }
-
-  .buttons {
-    margin-top: 16px;
-  }
-
-  .footer-note {
-    margin-top: 14px;
-  }
-
-  .letter {
-    line-height: 1.55;
-    margin: 12px auto;
-  }
+  .screen { padding: 20px 16px; }
+  .eyebrow { margin-bottom: 10px; }
+  .big-heart { font-size: 40px; margin: 10px 0; }
+  .subtitle { margin: 10px auto; line-height: 1.55; }
+  .memory-card { padding: 16px; margin: 12px auto; }
+  .memory-icon { font-size: 32px; margin-bottom: 8px; }
+  .buttons { margin-top: 14px; }
+  .footer-note { margin-top: 12px; }
+  .letter { line-height: 1.5; margin: 10px auto; }
 }
 
 @media (max-width: 420px) {
-  .counter {
-    gap: 5px;
-  }
-
-  .time-box {
-    padding: 12px 2px;
-  }
-
-  .time-box span {
-    font-size: 8px;
-  }
-
-  .btn {
-    padding: 12px 20px;
-  }
+  .counter { gap: 4px; }
+  .time-box { padding: 11px 2px; }
+  .time-box span { font-size: 8px; }
+  .btn { padding: 12px 19px; }
 }
 </style>
 </head>
@@ -370,112 +315,72 @@ h2 {
 <div id="stars"></div>
 <div class="progress" id="progress"></div>
 
-<!-- SCREEN 1: WELCOME -->
+<!-- SCREEN 1 -->
 <section class="screen active">
   <div class="content">
     <div class="eyebrow">A little universe made for us</div>
-
     <div class="big-heart">❤️</div>
-
     <h1>To my favourite<br>person</h1>
-
     <div class="script">My Bubbu</div>
-
     <p class="subtitle">
       Some stories are written in the stars.<br>
       Ours is my favourite one.
     </p>
-
     <button class="btn next">Open our little world ✨</button>
-
     <div class="footer-note">MADE WITH LOVE, JUST FOR YOU</div>
   </div>
 </section>
 
-<!-- SCREEN 2: RELATIONSHIP TIMER -->
+<!-- SCREEN 2: TIMER -->
 <section class="screen">
   <div class="content">
     <div class="eyebrow">Our story began</div>
-
     <h2>26 November 2023</h2>
-
     <div class="script">at 9:08 PM</div>
-
     <p class="subtitle">
       One little moment that became<br>
       my whole favourite world.
     </p>
 
     <div class="counter">
-      <div class="time-box">
-        <strong id="years">0</strong>
-        <span>Years</span>
-      </div>
-
-      <div class="time-box">
-        <strong id="days">0</strong>
-        <span>Days</span>
-      </div>
-
-      <div class="time-box">
-        <strong id="hours">0</strong>
-        <span>Hours</span>
-      </div>
-
-      <div class="time-box">
-        <strong id="minutes">0</strong>
-        <span>Minutes</span>
-      </div>
-
-      <div class="time-box">
-        <strong id="seconds">0</strong>
-        <span>Seconds</span>
-      </div>
+      <div class="time-box"><strong id="years">0</strong><span>Years</span></div>
+      <div class="time-box"><strong id="days">0</strong><span>Days</span></div>
+      <div class="time-box"><strong id="hours">0</strong><span>Hours</span></div>
+      <div class="time-box"><strong id="minutes">0</strong><span>Minutes</span></div>
+      <div class="time-box"><strong id="seconds">0</strong><span>Seconds</span></div>
     </div>
 
-    <p class="subtitle">
-      And every second, I choose you again. ❤️
-    </p>
-
+    <p class="subtitle">And every second, I choose you again. ❤️</p>
     <button class="btn next">Our little memories →</button>
   </div>
 </section>
 
-<!-- SCREEN 3: MEMORY -->
+<!-- SCREEN 3 -->
 <section class="screen">
   <div class="content">
     <div class="eyebrow">Memory no. 01</div>
-
     <h2>My favourite view</h2>
-
     <div class="memory-card">
       <div class="memory-icon">🌷</div>
-
       <div class="script">You & Me</div>
-
       <p>
         It doesn't matter where we are.<br>
         My favourite place will always be<br>
         wherever you are.
       </p>
     </div>
-
     <button class="btn next">Next memory →</button>
   </div>
 </section>
 
-<!-- SCREEN 4: MEMORY -->
+<!-- SCREEN 4 -->
 <section class="screen">
   <div class="content">
     <div class="eyebrow">Memory no. 02</div>
-
     <h2>Our little moments</h2>
-
     <div class="memory-card">
       <div class="memory-icon">☕</div>
-
       <div class="script">The simple things</div>
-
       <p>
         Random talks, silly jokes,<br>
         little fights and endless laughter.<br>
@@ -483,53 +388,38 @@ h2 {
         become my favourite memories.
       </p>
     </div>
-
     <button class="btn next">One more →</button>
   </div>
 </section>
 
-<!-- SCREEN 5: MEMORY -->
+<!-- SCREEN 5 -->
 <section class="screen">
   <div class="content">
     <div class="eyebrow">Memory no. 03</div>
-
     <h2>My safe place</h2>
-
     <div class="memory-card">
       <div class="memory-icon">🏡</div>
-
       <div class="script">Home is a feeling</div>
-
       <p>
         Your presence makes everything<br>
         feel a little softer, a little safer<br>
         and a lot more beautiful.
       </p>
     </div>
-
     <button class="btn next">Reasons I love you →</button>
   </div>
 </section>
 
-<!-- SCREEN 6: REASONS -->
+<!-- SCREEN 6 -->
 <section class="screen">
   <div class="content">
     <div class="eyebrow">A tiny reminder</div>
-
     <h2>Reasons I love you</h2>
-
-    <p class="subtitle">
-      Tap the button to reveal one.
-    </p>
-
+    <p class="subtitle">Tap the button to reveal one.</p>
     <div class="reason" id="reason">
       You make my heart feel at home. ❤️
     </div>
-
-    <button class="btn" id="reasonBtn">
-      Another reason 💌
-    </button>
-
+    <button class="btn" id="reasonBtn">Another reason 💌</button>
     <div class="buttons">
       <button class="btn secondary back">← Back</button>
       <button class="btn next">My letter →</button>
@@ -541,7 +431,6 @@ h2 {
 <section class="screen">
   <div class="content">
     <div class="eyebrow">A letter from my heart</div>
-
     <h2>Dear Bubbu,</h2>
 
     <div class="letter">
@@ -579,7 +468,6 @@ h2 {
     </div>
 
     <div class="signature">Forever yours, Mahi ❤️</div>
-
     <button class="btn next">One last thing…</button>
   </div>
 </section>
@@ -588,7 +476,6 @@ h2 {
 <section class="screen">
   <div class="content">
     <div class="eyebrow">To my almost-husband</div>
-
     <div class="big-heart">💖</div>
 
     <h1>In every lifetime,<br>I'd choose you.</h1>
@@ -609,13 +496,11 @@ h2 {
       and everything in between.
     </p>
 
-    <h2 style="font-size:30px; margin-top:18px;">
+    <h2 style="font-size:30px; margin-top:16px;">
       I want all of them with you.
     </h2>
 
-    <div class="signature">
-      I love you, Bubbu. ❤️
-    </div>
+    <div class="signature">I love you, Bubbu. ❤️</div>
 
     <p class="footer-note">
       ALWAYS YOUR MAHI · 26.11.2023
@@ -623,16 +508,13 @@ h2 {
 
     <div class="buttons">
       <button class="btn secondary back">← Read again</button>
-
-      <button class="btn" id="restart">
-        Our story again ↻
-      </button>
+      <button class="btn" id="restart">Our story again ↻</button>
     </div>
   </div>
 </section>
 
 <script>
-/* SCREEN NAVIGATION */
+/* NAVIGATION */
 
 const screens = [...document.querySelectorAll(".screen")];
 const progress = document.getElementById("progress");
@@ -656,15 +538,11 @@ function showScreen(index) {
 }
 
 document.querySelectorAll(".next").forEach(button => {
-  button.addEventListener("click", () => {
-    showScreen(current + 1);
-  });
+  button.addEventListener("click", () => showScreen(current + 1));
 });
 
 document.querySelectorAll(".back").forEach(button => {
-  button.addEventListener("click", () => {
-    showScreen(current - 1);
-  });
+  button.addEventListener("click", () => showScreen(current - 1));
 });
 
 document.getElementById("restart").addEventListener("click", () => {
@@ -688,50 +566,34 @@ let reasonIndex = 0;
 
 document.getElementById("reasonBtn").addEventListener("click", () => {
   reasonIndex = (reasonIndex + 1) % reasons.length;
-
-  document.getElementById("reason").textContent =
-    reasons[reasonIndex];
+  document.getElementById("reason").textContent = reasons[reasonIndex];
 });
 
-/* RELATIONSHIP TIMER */
+/* LIVE RELATIONSHIP TIMER */
 
 function updateTimer() {
   const start = new Date(2023, 10, 26, 21, 8, 0);
   const now = new Date();
 
-  if (now < start) {
-    return;
-  }
+  if (now < start) return;
 
   let years = now.getFullYear() - start.getFullYear();
 
-  let anniversary = new Date(
-    start.getFullYear() + years,
-    start.getMonth(),
-    start.getDate(),
-    start.getHours(),
-    start.getMinutes(),
-    start.getSeconds()
-  );
+  let anniversary = new Date(start);
+  anniversary.setFullYear(start.getFullYear() + years);
 
   if (now < anniversary) {
     years--;
-    anniversary = new Date(
-      start.getFullYear() + years,
-      start.getMonth(),
-      start.getDate(),
-      start.getHours(),
-      start.getMinutes(),
-      start.getSeconds()
-    );
+    anniversary = new Date(start);
+    anniversary.setFullYear(start.getFullYear() + years);
   }
 
-  const remaining = now.getTime() - anniversary.getTime();
+  const elapsed = now.getTime() - anniversary.getTime();
 
-  const days = Math.floor(remaining / 86400000);
-  const hours = Math.floor((remaining % 86400000) / 3600000);
-  const minutes = Math.floor((remaining % 3600000) / 60000);
-  const seconds = Math.floor((remaining % 60000) / 1000);
+  const days = Math.floor(elapsed / 86400000);
+  const hours = Math.floor((elapsed % 86400000) / 3600000);
+  const minutes = Math.floor((elapsed % 3600000) / 60000);
+  const seconds = Math.floor((elapsed % 60000) / 1000);
 
   document.getElementById("years").textContent = years;
   document.getElementById("days").textContent = days;
@@ -743,20 +605,18 @@ function updateTimer() {
 updateTimer();
 setInterval(updateTimer, 1000);
 
-/* TWINKLING STARS */
+/* STARS */
 
 const starLayer = document.getElementById("stars");
 
 for (let i = 0; i < 45; i++) {
   const star = document.createElement("span");
-
   star.className = "star";
   star.textContent = "✦";
   star.style.left = Math.random() * 100 + "%";
   star.style.top = Math.random() * 100 + "%";
   star.style.fontSize = (6 + Math.random() * 10) + "px";
   star.style.animationDelay = Math.random() * 4 + "s";
-
   starLayer.appendChild(star);
 }
 
@@ -764,7 +624,6 @@ for (let i = 0; i < 45; i++) {
 
 function createHeart() {
   const heart = document.createElement("span");
-
   heart.className = "heart";
   heart.textContent = Math.random() > .5 ? "♥" : "♡";
   heart.style.left = Math.random() * 100 + "%";
@@ -773,9 +632,7 @@ function createHeart() {
 
   document.body.appendChild(heart);
 
-  setTimeout(() => {
-    heart.remove();
-  }, 11000);
+  setTimeout(() => heart.remove(), 11000);
 }
 
 setInterval(createHeart, 1300);
