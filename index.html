@@ -4,470 +4,583 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Universe of Us ♡</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400&family=Parisienne&display=swap" rel="stylesheet">
+<title>Our Little Universe ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --wine:#260b1a;
-  --rose:#e8a8bd;
-  --gold:#e8c68d;
-  --cream:#fff8f4;
-  --muted:#d8bbc6;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-*{box-sizing:border-box}
-html,body{
-  margin:0;width:100%;height:100%;
-  overflow:hidden;
+
+:root {
+  --wine: #4b1029;
+  --pink: #f6dce5;
+  --cream: #fff8f3;
+  --gold: #e8bd83;
+  --text: #fff8f3;
 }
-body{
-  background:var(--wine);
-  color:var(--cream);
-  font-family:'DM Sans',sans-serif;
-  font-weight:300;
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background:radial-gradient(circle at 15% 15%,#6b294233,transparent 35%),
-  radial-gradient(circle at 85% 70%,#9b526022,transparent 38%);
+
+body {
+  background: radial-gradient(circle at top, #762b4b, #280817 75%);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
 }
-.stars{
-  position:fixed;inset:0;pointer-events:none;opacity:.6;
-  background-image:
-  radial-gradient(1px 1px at 20% 30%,#fff 99%,transparent),
-  radial-gradient(1px 1px at 70% 20%,var(--gold) 99%,transparent),
-  radial-gradient(1px 1px at 85% 60%,#fff 99%,transparent);
-  background-size:260px 260px;
+
+button {
+  font: inherit;
+  cursor: pointer;
 }
-.screen{
-  position:absolute;inset:0;display:none;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:clamp(18px,4vw,42px);
-  overflow:hidden;
+
+#stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
-.screen.active{display:flex;animation:appear .6s ease both}
-.inner{
-  width:min(100%,900px);max-height:100%;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:clamp(10px,2.2vh,20px);
+
+.star {
+  position: absolute;
+  color: #ffe5c1;
+  opacity: .6;
+  animation: twinkle 3s infinite ease-in-out;
 }
-.eyebrow{
-  letter-spacing:.2em;text-transform:uppercase;
-  font-size:.65rem;color:var(--gold);
+
+@keyframes twinkle {
+  0%, 100% { opacity: .2; transform: scale(.8); }
+  50% { opacity: .9; transform: scale(1.2); }
 }
-h1,h2{
-  font-family:'Cormorant Garamond',serif;
-  font-weight:500;line-height:.98;margin:0;
+
+.heart {
+  position: fixed;
+  bottom: -30px;
+  color: #f5a8c4;
+  pointer-events: none;
+  animation: floatUp 8s linear forwards;
+  z-index: 0;
 }
-h1{font-size:clamp(3.2rem,9vw,7rem)}
-h2{font-size:clamp(2.5rem,7vw,5rem)}
-p{line-height:1.65;color:var(--muted);margin:0;max-width:620px}
-.script{
-  font-family:'Parisienne',cursive;
-  color:var(--rose);font-size:clamp(2rem,5vw,3.4rem);
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh) rotate(25deg);
+    opacity: 0;
+  }
 }
-.orbit{
-  width:clamp(90px,14vh,140px);
-  height:clamp(90px,14vh,140px);
-  border:1px solid #e8c68d55;border-radius:50%;
-  display:grid;place-items:center;position:relative;
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1;
 }
-.orbit:before,.orbit:after{
-  content:"";position:absolute;border:1px solid #e8a8bd33;
-  border-radius:50%;inset:12px;
+
+.screen.active {
+  display: flex;
+  animation: appear .6s ease;
 }
-.orbit:after{
-  inset:-10px;border-style:dashed;
-  animation:spin 28s linear infinite;
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.heart{
-  font-size:3rem;color:var(--rose);
-  animation:pulse 2s infinite;
+
+.content {
+  width: min(100%, 650px);
+  text-align: center;
 }
-.buttons{
-  display:flex;justify-content:center;gap:10px;
-  flex-wrap:wrap;margin-top:6px;
+
+.eyebrow {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 11px;
+  margin-bottom: 22px;
 }
-.btn{
-  border:1px solid #e8c68d88;padding:12px 21px;
-  border-radius:999px;background:#e8c68d12;
-  color:var(--cream);font:inherit;cursor:pointer;
-  transition:.25s;
+
+h1, h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 500;
+  line-height: 1.2;
 }
-.btn.primary{background:var(--gold);color:var(--wine)}
-.btn:hover{transform:translateY(-2px);background:var(--gold);color:var(--wine)}
-.progress{
-  position:fixed;top:18px;left:50%;
-  transform:translateX(-50%);
-  display:flex;gap:7px;z-index:10;
+
+h1 {
+  font-size: clamp(38px, 8vw, 76px);
 }
-.dot{
-  width:6px;height:6px;border-radius:50%;
-  border:1px solid #e8c68d88;
+
+h2 {
+  font-size: clamp(30px, 6vw, 48px);
 }
-.dot.on{background:var(--gold)}
-.corner{
-  position:fixed;bottom:16px;left:0;right:0;
-  text-align:center;color:#d8bbc688;
-  font-size:.6rem;letter-spacing:.12em;z-index:5;
+
+.script {
+  font-family: "Dancing Script", cursive;
+  color: #f7c5d7;
+  font-size: clamp(36px, 7vw, 58px);
+  margin-top: 10px;
 }
-.counter{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:8px;width:min(100%,620px);
+
+.subtitle {
+  color: #f4dce5;
+  line-height: 1.8;
+  font-size: 15px;
+  margin: 22px auto;
+  max-width: 430px;
 }
-.count{
-  border:1px solid #e8c68d40;
-  background:#ffffff06;border-radius:14px;padding:14px 6px;
+
+.big-heart {
+  font-size: 68px;
+  margin: 24px 0;
+  filter: drop-shadow(0 0 20px #ff8eb7);
+  animation: heartbeat 1.8s infinite;
 }
-.count strong{
-  display:block;font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.7rem,5vw,3.3rem);
-  color:var(--gold);font-weight:500;
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
 }
-.count span{
-  font-size:.58rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);
+
+.btn {
+  border: 1px solid var(--gold);
+  border-radius: 50px;
+  padding: 14px 28px;
+  color: var(--wine);
+  background: linear-gradient(135deg, #fbe4cf, #e8bd83);
+  font-weight: 600;
+  box-shadow: 0 8px 30px #0003;
+  transition: .25s;
 }
-.memory-card{
-  width:min(100%,310px);background:#fff8f3;
-  padding:10px 10px 16px;color:#351426;
-  box-shadow:0 18px 50px #0005;transform:rotate(-1deg);
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px #0005;
 }
-.memory-card img{
-  width:100%;height:min(39vh,320px);
-  object-fit:cover;display:block;
+
+.btn.secondary {
+  color: #ffe8ef;
+  background: transparent;
+  border-color: #a95b79;
+  box-shadow: none;
 }
-.memory-card figcaption{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.4rem;padding:12px 5px 0;
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
 }
-.memory-card small{
-  display:block;font-size:.58rem;
-  letter-spacing:.1em;color:#966b7d;margin-top:5px;
+
+.counter {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 30px 0;
 }
-.note-card{
-  width:min(100%,550px);border:1px solid #e8a8bd55;
-  border-radius:20px;background:#ffffff08;
-  padding:clamp(20px,5vw,38px);cursor:pointer;
-  color:var(--cream);font:inherit;
+
+.time-box {
+  background: #ffffff0b;
+  border: 1px solid #f4c6d52b;
+  border-radius: 18px;
+  padding: 18px 8px;
+  backdrop-filter: blur(8px);
 }
-.note-card .big{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.7rem,5vw,3rem);
-  color:var(--cream);margin:14px 0;
+
+.time-box strong {
+  display: block;
+  font-family: "Playfair Display", serif;
+  color: var(--gold);
+  font-size: clamp(24px, 5vw, 38px);
 }
-.letter{
-  width:min(100%,650px);
-  background:#f8e7ed;color:#3b1027;
-  padding:clamp(20px,4vw,38px);
+
+.time-box span {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #f5dce5;
+  text-transform: uppercase;
 }
-.letter p{
-  color:#74485a;font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1rem,2.5vw,1.25rem);
-  line-height:1.5;margin:10px 0;
+
+.memory-card {
+  border: 1px solid #f0c6d54d;
+  background: linear-gradient(145deg, #ffffff12, #ffffff04);
+  border-radius: 28px;
+  padding: 32px 24px;
+  margin: 26px auto;
+  max-width: 500px;
+  box-shadow: 0 20px 60px #0002;
 }
-.sign{
-  font-family:'Parisienne',cursive;
-  font-size:2.2rem;color:#9c4f6c;text-align:right;
+
+.memory-icon {
+  font-size: 54px;
+  margin-bottom: 20px;
 }
-.final-photo{
-  width:min(190px,35vh);height:min(220px,36vh);
-  object-fit:cover;border:8px solid #fff8f3;
-  box-shadow:0 18px 45px #0005;transform:rotate(-3deg);
+
+.memory-card p {
+  color: #f6dce5;
+  line-height: 1.8;
+  margin-top: 16px;
 }
-.secret{display:none;color:var(--rose);max-width:500px}
-.secret.show{display:block;animation:appear .5s ease}
-.petal{
-  position:fixed;pointer-events:none;z-index:20;
-  font-size:16px;animation:floatUp 5s linear forwards;
+
+.reason {
+  background: #fff9f31a;
+  border: 1px solid #f4c6d544;
+  border-radius: 20px;
+  padding: 22px;
+  margin: 24px auto;
+  max-width: 460px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffe7ef;
+  font-family: "Playfair Display", serif;
+  font-size: 22px;
+  line-height: 1.5;
 }
-@keyframes appear{
-  from{opacity:0;transform:translateY(15px)}
-  to{opacity:1;transform:translateY(0)}
+
+.letter {
+  color: #ffe8ef;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(16px, 3vw, 20px);
+  line-height: 1.9;
+  margin: 22px auto;
+  max-width: 520px;
 }
-@keyframes pulse{50%{transform:scale(1.12)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes floatUp{
-  to{transform:translateY(-110vh) rotate(220deg);opacity:0}
+
+.signature {
+  color: #f7c5d7;
+  font-family: "Dancing Script", cursive;
+  font-size: 34px;
+  margin-top: 16px;
 }
-@media(max-width:520px){
-  .screen{padding:20px 15px}
-  .count{padding:12px 4px}
-  .eyebrow{font-size:.57rem}
-  .memory-card img{height:min(36vh,270px)}
+
+.progress {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+.progress span {
+  width: 18px;
+  height: 4px;
+  border-radius: 10px;
+  background: #ffffff30;
+}
+
+.progress span.done {
+  background: var(--gold);
+}
+
+.footer-note {
+  color: #e8bd83;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-top: 30px;
+}
+
+@media (max-height: 700px) {
+  .screen { padding: 18px; }
+  .eyebrow { margin-bottom: 12px; }
+  .big-heart { font-size: 48px; margin: 14px 0; }
+  .subtitle { margin: 14px auto; }
+  .memory-card { padding: 20px; margin: 16px auto; }
+  .memory-icon { font-size: 38px; margin-bottom: 10px; }
+  .reason { margin: 14px auto; padding: 16px; }
+  .letter { line-height: 1.65; margin: 14px auto; }
+  .buttons { margin-top: 18px; }
+}
+
+@media (max-width: 420px) {
+  .counter { gap: 6px; }
+  .time-box { padding: 14px 4px; }
+  .time-box span { font-size: 9px; }
+  .btn { padding: 12px 22px; }
 }
 </style>
 </head>
 
 <body>
-<div class="stars"></div>
+
+<div id="stars"></div>
 <div class="progress" id="progress"></div>
-<div class="corner" id="corner">OUR LITTLE UNIVERSE ♡</div>
 
-<!-- SCREEN 1: WELCOME -->
+<!-- SCREEN 1 -->
 <section class="screen active">
- <div class="inner">
-  <div class="orbit"><div class="heart">♥</div></div>
-  <div class="eyebrow">A tiny website, a very big love</div>
-  <h1>Our little<br><span class="script">forever</span></h1>
-  <p>Hey Bubbu… I made this little world just for you. Every click has a little piece of us in it.</p>
-  <button class="btn primary next">Open our story ♡</button>
- </div>
+  <div class="content">
+    <div class="eyebrow">A little universe made for us</div>
+    <div class="big-heart">❤️</div>
+    <h1>To my favourite<br>person</h1>
+    <div class="script">My Bubbu</div>
+    <p class="subtitle">
+      Some stories are written in the stars.<br>
+      Ours is my favourite one.
+    </p>
+    <button class="btn next">Open our little world ✨</button>
+    <div class="footer-note">MADE WITH LOVE, JUST FOR YOU</div>
+  </div>
 </section>
 
-<!-- SCREEN 2: LIVE COUNTER -->
+<!-- SCREEN 2 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">The day my favourite story began</div>
-  <h2>Since 26 November<br><span class="script">2023, and counting…</span></h2>
-  <div class="counter">
-   <div class="count"><strong id="years">0</strong><span>Years</span></div>
-   <div class="count"><strong id="days">0</strong><span>Days</span></div>
-   <div class="count"><strong id="hours">0</strong><span>Hours</span></div>
-   <div class="count"><strong id="minutes">0</strong><span>Minutes</span></div>
+  <div class="content">
+    <div class="eyebrow">Our story began</div>
+    <h2>26 November 2023</h2>
+    <div class="script">at 9:08 PM</div>
+    <p class="subtitle">
+      One little moment that became<br>
+      my whole favourite world.
+    </p>
+
+    <div class="counter">
+      <div class="time-box"><strong id="years">0</strong><span>Years</span></div>
+      <div class="time-box"><strong id="days">0</strong><span>Days</span></div>
+      <div class="time-box"><strong id="hours">0</strong><span>Hours</span></div>
+      <div class="time-box"><strong id="minutes">0</strong><span>Minutes</span></div>
+    </div>
+
+    <p class="subtitle">And every second, I choose you again. ❤️</p>
+    <button class="btn next">Our little memories →</button>
   </div>
-  <p id="secondsLine">Every second is another little piece of us. ♥</p>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">Our memories →</button>
-  </div>
- </div>
 </section>
 
-<!-- SCREEN 3: PHOTO 1 -->
+<!-- SCREEN 3 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">Memory 01 · Just us</div>
-  <figure class="memory-card">
-   <img src="photos/memory-1.png" alt="Our selfie together">
-   <figcaption>My favourite person</figcaption>
-   <small>JUST US, BEING US</small>
-  </figure>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">Next memory →</button>
+  <div class="content">
+    <div class="eyebrow">Memory no. 01</div>
+    <h2>My favourite view</h2>
+    <div class="memory-card">
+      <div class="memory-icon">🌷</div>
+      <div class="script">You & Me</div>
+      <p>
+        It doesn't matter where we are.<br>
+        My favourite place will always be<br>
+        wherever you are.
+      </p>
+    </div>
+    <button class="btn next">Next memory →</button>
   </div>
- </div>
 </section>
 
-<!-- SCREEN 4: PHOTO 2 -->
+<!-- SCREEN 4 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">Memory 02 · A little date</div>
-  <figure class="memory-card">
-   <img src="photos/memory-2.png" alt="A cosy date selfie">
-   <figcaption>A little date, a lot of love</figcaption>
-   <small>ONE OF MY HAPPY PLACES</small>
-  </figure>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">Next memory →</button>
+  <div class="content">
+    <div class="eyebrow">Memory no. 02</div>
+    <h2>Our little moments</h2>
+    <div class="memory-card">
+      <div class="memory-icon">☕</div>
+      <div class="script">The simple things</div>
+      <p>
+        Random talks, silly jokes,<br>
+        little fights and endless laughter.<br>
+        Somehow, ordinary days with you<br>
+        become my favourite memories.
+      </p>
+    </div>
+    <button class="btn next">One more →</button>
   </div>
- </div>
 </section>
 
-<!-- SCREEN 5: BIRTHDAY PHOTO -->
+<!-- SCREEN 5 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">Memory 03 · Your birthday</div>
-  <figure class="memory-card">
-   <img src="photos/birthday-together.png" alt="Celebrating your birthday together">
-   <figcaption>Your birthday, my favourite gift</figcaption>
-   <small>CAKE · CANDLES · YOU</small>
-  </figure>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">One more →</button>
+  <div class="content">
+    <div class="eyebrow">Memory no. 03</div>
+    <h2>My safe place</h2>
+    <div class="memory-card">
+      <div class="memory-icon">🏡</div>
+      <div class="script">Home is a feeling</div>
+      <p>
+        Your presence makes everything<br>
+        feel a little softer, a little safer<br>
+        and a lot more beautiful.
+      </p>
+    </div>
+    <button class="btn next">Tell me why you love me →</button>
   </div>
- </div>
 </section>
 
-<!-- SCREEN 6: CAKE PHOTO -->
+<!-- SCREEN 6 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">Memory 04 · The little things</div>
-  <figure class="memory-card">
-   <img src="photos/birthday-cake.png" alt="A sweet birthday moment">
-   <figcaption>Let me take care of you</figcaption>
-   <small>THE LITTLE THINGS</small>
-  </figure>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">A little dream →</button>
+  <div class="content">
+    <div class="eyebrow">A tiny reminder</div>
+    <h2>Reasons I love you</h2>
+    <p class="subtitle">Tap the heart to reveal one.</p>
+    <div class="reason" id="reason">
+      You make my heart feel at home. ❤️
+    </div>
+    <button class="btn" id="reasonBtn">Another reason 💌</button>
+    <div class="buttons">
+      <button class="btn secondary back">← Back</button>
+      <button class="btn next">My letter →</button>
+    </div>
   </div>
- </div>
 </section>
 
-<!-- SCREEN 7: DREAM PHOTO -->
+<!-- SCREEN 7 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">A dream we’ll make real someday</div>
-  <figure class="memory-card">
-   <img src="photos/our-dream.png" alt="A dreamy imagined trip together">
-   <figcaption>One day, somewhere beautiful</figcaption>
-   <small>OUR LITTLE DREAM</small>
-  </figure>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">Reasons I choose you →</button>
+  <div class="content">
+    <div class="eyebrow">A letter from my heart</div>
+    <h2>Dear Bubbu,</h2>
+    <div class="letter">
+      Thank you for being my person.<br>
+      Thank you for the laughter, the care,<br>
+      the patience and all the little things<br>
+      that make our love feel so special.<br><br>
+
+      I don't need a perfect story.<br>
+      I just want our story —<br>
+      with you beside me,<br>
+      through every season of life.<br><br>
+
+      If I had to choose again,<br>
+      in every lifetime and every universe,<br>
+      I would still find my way to you.
+    </div>
+    <div class="signature">Forever yours, Mahi ❤️</div>
+    <button class="btn next">One last thing…</button>
   </div>
- </div>
 </section>
 
-<!-- SCREEN 8: REASONS -->
+<!-- SCREEN 8 -->
 <section class="screen">
- <div class="inner">
-  <div class="eyebrow">The little things I never want to forget</div>
-  <h2>Reasons I <span class="script">choose you</span></h2>
-  <button class="note-card" id="reasonCard">
-   <span class="eyebrow" id="reasonNumber">TAP TO REVEAL · 01</span>
-   <div class="big" id="reasonText">One little reason…</div>
-   <p id="reasonHint">Tap this card for a reason ♡</p>
-  </button>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">Our letter →</button>
+  <div class="content">
+    <div class="eyebrow">A little promise</div>
+    <div class="big-heart">💖</div>
+    <h1>It's always<br>going to be you.</h1>
+    <div class="script">My today, my tomorrow</div>
+    <p class="subtitle">
+      Happy anniversary, my love.<br>
+      Our little universe is my favourite place.
+    </p>
+    <div class="buttons">
+      <button class="btn secondary back">← Read again</button>
+      <button class="btn" id="restart">Start our story again ↻</button>
+    </div>
+    <div class="footer-note">26.11.2023 — FOREVER</div>
   </div>
- </div>
-</section>
-
-<!-- SCREEN 9: LOVE LETTER -->
-<section class="screen">
- <div class="inner">
-  <div class="eyebrow">A note from my heart</div>
-  <div class="letter">
-   <div class="script">My love,</div>
-   <p>I don’t think I’ll ever find the perfect words for what you mean to me. But I hope you always feel it in the way I look at you, the way I care about you, and the way I keep making room for you in every little dream I have.</p>
-   <p>Thank you for being part of my days, my silly moments, my memories and my future hopes. I love the life we’re slowly building, one little moment at a time.</p>
-   <p>If I could go back to the beginning, I’d still want to find you. I’d still want us.</p>
-   <div class="sign">Yours, Mahiiii ♡</div>
-  </div>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary next">One last thing…</button>
-  </div>
- </div>
-</section>
-
-<!-- SCREEN 10: FINAL SURPRISE -->
-<section class="screen">
- <div class="inner">
-  <div class="eyebrow">One last thing…</div>
-  <h2>In every version<br>of <span class="script">my forever,</span><br>it’s you.</h2>
-  <img class="final-photo" src="photos/memory-1.png" alt="Us together">
-  <p>Thank you for being my favourite chapter, my favourite person, and my favourite kind of love.</p>
-  <button class="btn" id="secretBtn">Tap for one tiny secret ♡</button>
-  <p class="secret" id="secret">Psst… I still get butterflies. I hope I get to annoy you, love you, and hold your hand for a very, very long time. Happy us, Bubbu. ♡</p>
-  <div class="buttons">
-   <button class="btn back">← Back</button>
-   <button class="btn primary" id="restart">Start our story again ↻</button>
-  </div>
- </div>
 </section>
 
 <script>
-const screens=[...document.querySelectorAll('.screen')];
-let current=0;
-const progress=document.getElementById('progress');
+const screens = [...document.querySelectorAll(".screen")];
+const progress = document.getElementById("progress");
+let current = 0;
 
-screens.forEach((screen,index)=>{
- const dot=document.createElement('span');
- dot.className='dot'+(index===0?' on':'');
- progress.appendChild(dot);
+screens.forEach((_, i) => {
+  const dot = document.createElement("span");
+  progress.appendChild(dot);
 });
-const dots=[...progress.children];
 
-function showScreen(index){
- current=Math.max(0,Math.min(screens.length-1,index));
- screens.forEach((screen,i)=>{
-  screen.classList.toggle('active',i===current);
- });
- dots.forEach((dot,i)=>dot.classList.toggle('on',i===current));
- document.getElementById('corner').textContent=
- `OUR LITTLE UNIVERSE ♡ ${current+1} / ${screens.length}`;
+const dots = [...progress.children];
+
+function showScreen(index) {
+  current = (index + screens.length) % screens.length;
+
+  screens.forEach((screen, i) => {
+    screen.classList.toggle("active", i === current);
+    dots[i].classList.toggle("done", i <= current);
+  });
 }
 
-document.querySelectorAll('.next').forEach(button=>{
- button.addEventListener('click',()=>showScreen(current+1));
+document.querySelectorAll(".next").forEach(button => {
+  button.addEventListener("click", () => showScreen(current + 1));
 });
-document.querySelectorAll('.back').forEach(button=>{
- button.addEventListener('click',()=>showScreen(current-1));
+
+document.querySelectorAll(".back").forEach(button => {
+  button.addEventListener("click", () => showScreen(current - 1));
 });
-document.getElementById('restart').addEventListener('click',()=>showScreen(0));
 
-/* Relationship timer starts at 26 November 2023, 9:08 PM */
-const start=new Date(2023,10,26,21,8,0);
+document.getElementById("restart").addEventListener("click", () => {
+  showScreen(0);
+});
 
-function updateCounter(){
- const now=new Date();
- let years=now.getFullYear()-start.getFullYear();
-
- const anniversary=new Date(start);
- anniversary.setFullYear(start.getFullYear()+years);
- if(now<anniversary)years--;
-
- const lastAnniversary=new Date(start);
- lastAnniversary.setFullYear(start.getFullYear()+years);
-
- const remaining=Math.max(0,now-lastAnniversary);
- const days=Math.floor(remaining/86400000);
- const hours=Math.floor((remaining%86400000)/3600000);
- const minutes=Math.floor((remaining%3600000)/60000);
- const seconds=Math.floor((now-start)/1000);
-
- document.getElementById('years').textContent=years;
- document.getElementById('days').textContent=days;
- document.getElementById('hours').textContent=hours;
- document.getElementById('minutes').textContent=minutes;
- document.getElementById('secondsLine').textContent=
- `${seconds.toLocaleString()} seconds of choosing us. ♥`;
-}
-updateCounter();
-setInterval(updateCounter,1000);
-
-/* Tap to reveal reasons */
-const reasons=[
- ["You feel like home.","Even an ordinary day feels softer when I’m with you."],
- ["Your little ways.","The things you do without noticing are the things I remember."],
- ["I get to love you.","Out of all the people in this world, I’m so glad it’s you."],
- ["You make me smile.","Sometimes just seeing your name on my phone is enough."],
- ["You’re my favourite.","My favourite person, my favourite place, my favourite kind of love."]
+const reasons = [
+  "You make my heart feel at home. ❤️",
+  "Your smile can fix my entire day. 🌷",
+  "You make ordinary moments feel magical. ✨",
+  "I love how we can be silly together. 🧸",
+  "You are my favourite notification. 💌",
+  "With you, even silence feels comfortable. 🌙",
+  "You make my world feel warmer. ☀️",
+  "I love the little world we have created. 💗"
 ];
-let reasonIndex=-1;
 
-document.getElementById('reasonCard').addEventListener('click',()=>{
- reasonIndex=(reasonIndex+1)%reasons.length;
- document.getElementById('reasonNumber').textContent=
- `A LITTLE REASON · ${String(reasonIndex+1).padStart(2,'0')}`;
- document.getElementById('reasonText').textContent=reasons[reasonIndex][0];
- document.getElementById('reasonHint').textContent=reasons[reasonIndex][1];
+let reasonIndex = 0;
+
+document.getElementById("reasonBtn").addEventListener("click", () => {
+  reasonIndex = (reasonIndex + 1) % reasons.length;
+  document.getElementById("reason").textContent = reasons[reasonIndex];
 });
 
-/* Final secret message */
-document.getElementById('secretBtn').addEventListener('click',()=>{
- const secret=document.getElementById('secret');
- secret.classList.toggle('show');
- document.getElementById('secretBtn').textContent=
- secret.classList.contains('show')
- ?'Hide my tiny secret ♡'
- :'Tap for one tiny secret ♡';
-});
+function updateTimer() {
+  const start = new Date(2023, 10, 26, 21, 8, 0);
+  const now = new Date();
+  let diff = Math.max(0, now - start);
+
+  const totalMinutes = Math.floor(diff / 60000);
+  const totalHours = Math.floor(diff / 3600000);
+  const totalDays = Math.floor(diff / 86400000);
+
+  let years = now.getFullYear() - start.getFullYear();
+  const anniversary = new Date(
+    now.getFullYear(), 10, 26, 21, 8, 0
+  );
+
+  if (now < anniversary) years--;
+
+  const days = totalDays - years * 365;
+  const hours = totalHours % 24;
+  const minutes = totalMinutes % 60;
+
+  document.getElementById("years").textContent = years;
+  document.getElementById("days").textContent = Math.max(0, days);
+  document.getElementById("hours").textContent = hours;
+  document.getElementById("minutes").textContent = minutes;
+}
+
+updateTimer();
+setInterval(updateTimer, 60000);
+
+/* Twinkling stars */
+const starLayer = document.getElementById("stars");
+
+for (let i = 0; i < 45; i++) {
+  const star = document.createElement("span");
+  star.className = "star";
+  star.textContent = "✦";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.fontSize = (6 + Math.random() * 10) + "px";
+  star.style.animationDelay = Math.random() * 4 + "s";
+  starLayer.appendChild(star);
+}
 
 /* Floating hearts */
-function makePetal(){
- const petal=document.createElement('span');
- petal.className='petal';
- petal.textContent=['♡','✦','♥'][Math.floor(Math.random()*3)];
- petal.style.left=Math.random()*100+'vw';
- petal.style.bottom='-25px';
- petal.style.color=Math.random()>.5?'#e8a8bd':'#e8c68d';
- petal.style.animationDuration=(4+Math.random()*3)+'s';
- document.body.appendChild(petal);
- setTimeout(()=>petal.remove(),7000);
+function createHeart() {
+  const heart = document.createElement("span");
+  heart.className = "heart";
+  heart.textContent = Math.random() > .5 ? "♥" : "♡";
+  heart.style.left = Math.random() * 100 + "%";
+  heart.style.fontSize = (14 + Math.random() * 20) + "px";
+  heart.style.animationDuration = (6 + Math.random() * 5) + "s";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 11000);
 }
-setInterval(makePetal,1800);
+
+setInterval(createHeart, 1300);
 </script>
+
 </body>
 </html>
